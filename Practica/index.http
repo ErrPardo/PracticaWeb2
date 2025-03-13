@@ -2,5 +2,11 @@ GET http://localhost:3000/api/users
 
 ###
 POST http://localhost:3000/api/users
-###
+Content-Type: application/json
+
+{
+  "email": "usuario@example.com",
+  "password": "contraseña"
+}
+
 
