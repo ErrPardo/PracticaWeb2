@@ -62,8 +62,36 @@ const modificarUsuario= async (req,res)=>{
     }
 }
 
-const loginUsuario=(req,res,next)=>{
-
+const loginUsuario=async (req,res,next)=>{
+    try{
+        req=matchedData(req)
+        if(!req){
+            res.status(409).send("error con el body")
+        }
+        else{
+            const user=await UserModel.findOne({email:req.email}).select("password name role email")
+            if(!user){
+                res.status(403).send("No se ha encontrado el usuario")
+            }
+            else{
+                const hashPassword=user.password
+                const check=compare(req.password,hashPassword)
+                if(!check){
+                    res.satus(403).send("Error en la comprobacion de la contraseña")
+                }
+                else{
+                    const data = {
+                        token: await tokenSign(user),
+                        user: user
+                    }
+                    res.send(data)
+                }
+            }
+        }
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
 }
 
 module.exports={crearUsuario,modificarUsuario,loginUsuario}
