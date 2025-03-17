@@ -12,4 +12,19 @@ const validatorRegister=[
     }
 ]
 
-module.exports={validatorRegister}
+const validatorVerification=[
+    check("code").exists().notEmpty().isLength(6),
+    (req,res,next)=>{
+        return validateResults(req,res,next)
+    }
+]
+
+const validatorLogin=[
+    check("email").exists().notEmpty().isEmail(),
+    check("password").exists().notEmpty().isLength( {min:8, max: 16} ),
+    (req,res,next)=>{
+        return validateResults(req,res,next)
+    }
+]
+
+module.exports={validatorRegister,validatorVerification,validatorLogin}

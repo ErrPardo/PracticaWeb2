@@ -19,21 +19,20 @@ const crearUsuario=async (req,res)=>{
         req=matchedData(req)
         if(req){
             const password=await encrypt(req.password)
-            console.log(password)
-            const body={...req,password}
+            codigoAleatorio=crypto.randomInt(100000, 1000000)
+            intentos=3
+            const body={...req,password,codigoAleatorio,intentos}
             const result=await UserModel.create(body)
             if(result){
                 result.set('password', undefined, { strict: false })
                 const data={
                     token:await tokenSign(result),
-                    intentos:3,
-                    codigoAleatorio:crypto.randomInt(100000, 1000000),
                     user:result
                 }
                 res.send(data)
             }
             else{
-                res.status(400).send("No se ha creado bien el usuario")
+                res.status(409).send("El usuario ya existe")
             }
         }
         else{
@@ -41,9 +40,30 @@ const crearUsuario=async (req,res)=>{
         } 
     }
     catch(e){
+        if(e.code===11000){
+            res.status(409).send("duplicate key")
+        }
+        else{
+            res.status(500).send(e)
+        }
+    }
+}
+
+const modificarUsuario= async (req,res)=>{
+    try{ 
+        const estado=true
+        const email=req.user.email
+        const data={...req.user.toObject(),estado}
+        const newUser=await UserModel.findOneAndReplace({email},data,{returnDocument:'after'}) 
+        res.send(newUser)  
+    }
+    catch(e){
         res.status(500).send(e)
     }
+}
+
+const loginUsuario=(req,res,next)=>{
 
 }
 
-module.exports={crearUsuario}
+module.exports={crearUsuario,modificarUsuario,loginUsuario}
