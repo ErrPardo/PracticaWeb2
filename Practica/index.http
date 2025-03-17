@@ -5,8 +5,12 @@ POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "email": "usuario@example.com",
-  "password": "contraseña"
+  "email": "nicolaila@gmail.com",
+  "password": "password"
 }
+###
+PUT http://localhost:3000/api/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q4NjJjNjBkNmUzZGZkYTc1MjU0ODEiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMjM0MzEwLCJleHAiOjE3NDIyNDE1MTB9.Y0s8PQI-gwJYPPqvpQPi-bJaHjmOFu79rC_45BYE4GI
 
-
+455441

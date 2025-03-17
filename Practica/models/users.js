@@ -14,7 +14,7 @@ const UserModel=new mongoose.Schema(
             default: "user"
         },
         codigoAleatorio:{
-            type:String
+            type:Number
         },
         intentos:{
             type:Number
