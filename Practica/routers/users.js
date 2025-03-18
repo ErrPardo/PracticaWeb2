@@ -1,15 +1,13 @@
 const express=require('express')
 
-const {crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario}=require('../controllers/users.js')
+const {crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario, getUser}=require('../controllers/users.js')
 const {validatorRegister,validatorVerification, validatorLogin,validatorRegisterPut}=require("../validators/userValidator.js")
 const verificationMiddleware = require('../middleware/verificationMiddleware.js')
 
 routerUsers=express.Router()
 routerUsers.use(express.json())
 
-routerUsers.get('/',(req,res)=>{
-    res.status(200).send("Todo Correcto")
-})
+routerUsers.get('/',getUser)
 
 routerUsers.post('/register',validatorRegister,crearUsuario)
 

@@ -1,7 +1,7 @@
 const { matchedData } = require('express-validator')
 const UserModel=require('../models/users.js')
 const { encrypt,compare } = require('../utils/handlePassword.js')
-const { tokenSign } = require('../utils/handleToken.js')
+const { tokenSign,verifyToken } = require('../utils/handleToken.js')
 const crypto = require('crypto');
 
 //TODO cifrar constraseña para cuando se envie
@@ -13,7 +13,27 @@ const crypto = require('crypto');
 
 //devuelve un token
 //genera un numero aleatorio y ponemos en el body del usuario
-//en el verify pone token en la autorizacion y numero aleatorio en el body, despues cogemos con el token la id y comprobamos , 
+//en el verify pone token en la autorizacion y numero aleatorio en el body, despues cogemos con el token la id y comprobamos ,
+
+
+const getUser=async(req,res)=>{
+    try{
+        if(!req.headers.authorization){
+            res.status(401).send("No hay cabecera/token en la peticion")
+        }
+        else{
+            const token=req.headers.authorization.match(/Bearer\s(\S+)/)[1]
+            const tokenData=await verifyToken(token)
+            if(tokenData){
+                const user=await UserModel.findById(tokenData._id)
+                res.send(user)
+            }
+        }
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
+}
 const crearUsuario=async (req,res)=>{
     try{
         req=matchedData(req)
@@ -115,4 +135,4 @@ const modificarUsuario=async (req,res)=>{
     
 }
 
-module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario}
+module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser}

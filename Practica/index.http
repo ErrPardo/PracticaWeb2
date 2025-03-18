@@ -1,11 +1,11 @@
 GET http://localhost:3000/api/users
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q5OGMwOGFmYmU1ZDk0MjJjOWQwNDMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMzEwNDA4LCJleHAiOjE3NDIzMTc2MDh9.RKjEpC8ahtLtk_WVypSAdRAmunSy3mFg9PNJz1Enj-M
 ###
 POST http://localhost:3000/api/users/register
 Content-Type: application/json
 
 {
-  "email": "nicolaila@gmail.com",
+  "email": "pardo@gmail.com",
   "password": "password"
 }
 ###
