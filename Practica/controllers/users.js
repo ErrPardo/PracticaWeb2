@@ -49,7 +49,7 @@ const crearUsuario=async (req,res)=>{
     }
 }
 
-const modificarUsuario= async (req,res)=>{
+const modificarUsuarioRegister=async (req,res)=>{
     try{ 
         const estado=true
         const email=req.user.email
@@ -94,4 +94,25 @@ const loginUsuario=async (req,res,next)=>{
     }
 }
 
-module.exports={crearUsuario,modificarUsuario,loginUsuario}
+const modificarUsuario=async (req,res)=>{
+    
+        if(!req.headers.authorization){
+            res.status(401).send("No hay cabecera/token en la peticion")
+        }
+        else{
+            req=matchedData(req)
+            console.log(req)
+            if(req){
+                const data=await UserModel.findOneAndUpdate({email:req.email},req,{returnDocument:'after'})
+                res.status(200).send(data)
+            }
+            else{
+                res.status(403).send("Problemas con el body")
+            }
+        }
+    
+    
+    
+}
+
+module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario}

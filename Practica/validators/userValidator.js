@@ -27,4 +27,14 @@ const validatorLogin=[
     }
 ]
 
-module.exports={validatorRegister,validatorVerification,validatorLogin}
+const validatorRegisterPut=[
+    check("email").exists().notEmpty().isEmail(),
+    check("name").exists().notEmpty(),
+    check("surnames").exists().notEmpty(),
+    check("nif").exists().notEmpty().isLength(9),
+    (req,res,next)=>{
+        return validateResults(req,res,next)
+    }
+]
+
+module.exports={validatorRegister,validatorVerification,validatorLogin,validatorRegisterPut}

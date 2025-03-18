@@ -22,7 +22,16 @@ const UserModel=new mongoose.Schema(
         estado:{
             type:Boolean,
             default:false
-        }
+        },
+        name:{
+            type:String
+        },
+        surnames:{
+            type:String
+        },
+        nif:{
+            type:String
+        },
     }
     ,
     {

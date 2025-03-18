@@ -6,7 +6,7 @@ const verificationMiddleware= async (req,res,next)=>{
     try{ 
         req.body=matchedData(req)
         if(!req.headers.authorization){
-            res.status(401).send("No hay cabecera en la peticion")
+            res.status(401).send("No hay cabecera/token en la peticion")
         }
         else{
             const token=req.headers.authorization.match(/Bearer\s(\S+)/)[1]

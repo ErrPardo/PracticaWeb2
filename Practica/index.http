@@ -11,10 +11,10 @@ Content-Type: application/json
 ###
 PUT http://localhost:3000/api/users/validation
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q4NmFiMWZmZDZhODE4MGIyOWYwNzAiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMjM2MzM3LCJleHAiOjE3NDIyNDM1Mzd9.QGWma3SUcW0q0NyoiuoUogpgzsfRMvRkKJDEWp0cRAQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q5NTQ2NjhiOTE4ZWU5YTY3MTRmNjAiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMjk2MTY2LCJleHAiOjE3NDIzMDMzNjZ9.Q90JvH6OXWdf_H_dnE9ds9BO96f3rbpHO3b38KuC0Xc
 
 {
-  "code":672880
+  "code":590092
 }
 
 ###
@@ -24,4 +24,16 @@ Content-Type: application/json
 {
   "email": "nicolaila@gmail.com",
   "password": "password"
+}
+
+###
+PUT http://localhost:3000/api/users/register
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q4NmFiMWZmZDZhODE4MGIyOWYwNzAiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMjM2MzM3LCJleHAiOjE3NDIyNDM1Mzd9.QGWma3SUcW0q0NyoiuoUogpgzsfRMvRkKJDEWp0cRAQ
+
+{
+  "email": "nicolaila@gmail.com",
+  "name": "Nicolas",
+  "surnames": "Calvo",
+  "nif": "40000000W"
 }
