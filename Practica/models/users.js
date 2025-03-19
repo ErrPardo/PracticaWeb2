@@ -32,6 +32,29 @@ const UserModel=new mongoose.Schema(
         nif:{
             type:String
         },
+        company:{
+            name:{
+                type:String
+            },
+            cif:{
+                type:String
+            },
+            street:{
+                type:String
+            },
+            number:{
+                type:Number
+            },
+            postal:{
+                type:Number
+            },
+            city:{
+                type:String
+            },
+            province:{
+                type:String
+            }
+        },
     }
     ,
     {

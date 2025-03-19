@@ -11,10 +11,10 @@ Content-Type: application/json
 ###
 PUT http://localhost:3000/api/users/validation
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q5NTQ2NjhiOTE4ZWU5YTY3MTRmNjAiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMjk2MTY2LCJleHAiOjE3NDIzMDMzNjZ9.Q90JvH6OXWdf_H_dnE9ds9BO96f3rbpHO3b38KuC0Xc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhZGZkODAzNzEwM2E4ZGEwYmY5ZTgiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMzk3NDAwLCJleHAiOjE3NDI0MDQ2MDB9.VduBwZ7CsmfbcqttvdrF1aqX_6VYExq37uJn9VttGJY
 
 {
-  "code":590092
+  "code":140795
 }
 
 ###
@@ -29,14 +29,31 @@ Content-Type: application/json
 ###
 PUT http://localhost:3000/api/users/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q4NmFiMWZmZDZhODE4MGIyOWYwNzAiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMjM2MzM3LCJleHAiOjE3NDIyNDM1Mzd9.QGWma3SUcW0q0NyoiuoUogpgzsfRMvRkKJDEWp0cRAQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhZTRkMzMwNjAwNDhmZTRhOGY1MzkiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMzk4Njc1LCJleHAiOjE3NDI0MDU4NzV9.OY8Td__4bZlzeBEQyZGalNuOA_fX3daFyubQXc7GRKc
 
 {
-  "email": "nicolaila@gmail.com",
+  "email": "pardo@gmail.com",
   "name": "Nicolas",
   "surnames": "Calvo",
   "nif": "40000000W"
 }
+###
+PATCH http://localhost:3000/api/users/company
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhZTRkMzMwNjAwNDhmZTRhOGY1MzkiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMzk4Njc1LCJleHAiOjE3NDI0MDU4NzV9.OY8Td__4bZlzeBEQyZGalNuOA_fX3daFyubQXc7GRKc
+
+{
+  "company": {
+    "name": "Servitop, SL.",
+    "cif": "BXXXXXXXX",
+    "street": "Carlos V",
+    "number": 22,
+    "postal": 28936,
+    "city": "Móstoles",
+    "province": "Madrid"
+  }
+}
+
 
 ###
 POST http://localhost:3000/api/mail

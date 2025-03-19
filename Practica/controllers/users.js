@@ -115,24 +115,28 @@ const loginUsuario=async (req,res,next)=>{
 }
 
 const modificarUsuario=async (req,res)=>{
-    
+    try{
         if(!req.headers.authorization){
             res.status(401).send("No hay cabecera/token en la peticion")
         }
         else{
-            req=matchedData(req)
-            console.log(req)
-            if(req){
-                const data=await UserModel.findOneAndUpdate({email:req.email},req,{returnDocument:'after'})
-                res.status(200).send(data)
+            req.body=matchedData(req)         
+            if(req.body){
+                const token=req.headers.authorization.match(/Bearer\s(\S+)/)[1]
+                const tokenData=await verifyToken(token)
+                if(tokenData){
+                    const user=await UserModel.findByIdAndUpdate(tokenData._id,req.body,{returnDocument:'after'})
+                    res.status(200).send(user)
+                }   
             }
             else{
                 res.status(403).send("Problemas con el body")
             }
         }
-    
-    
-    
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
 }
 
 module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser}
