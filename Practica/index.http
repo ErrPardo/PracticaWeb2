@@ -37,3 +37,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q4NmFiM
   "surnames": "Calvo",
   "nif": "40000000W"
 }
+
+###
+POST http://localhost:3000/api/mail
+Content-Type: application/json
+
+{
+  "subject": "Asunto del correo",
+  "text": "Contenido del mensaje",
+  "to": "eduardoyc04@gmail.com",
+  "from": "eduardoyc04@gmail.com"
+}
