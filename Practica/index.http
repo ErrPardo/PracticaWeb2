@@ -79,3 +79,12 @@ Content-Type: application/json
 ###
 DELETE http://localhost:3000/api/users?soft=true
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RjNTQ4ZmFkMzJlZjIzMzAzZDQwOWYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNDkyODE1LCJleHAiOjE3NDI1MDAwMTV9.5UFuFMjisZ0gcki2XBRjLl04QGDu8mHI3nQieRiQ2Ek
+
+###
+POST http://localhost:3000/api/users/validation
+Content-Type: application/json
+
+{
+  "email":"nicolaila@gmail.com",
+  "code":228920
+}

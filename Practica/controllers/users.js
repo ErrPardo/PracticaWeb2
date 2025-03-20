@@ -183,5 +183,25 @@ const deleteUser=async(req,res)=>{
     }
 }
 
+const recoverPassword=async(req,res)=>{
+    try{  
+        console.log(req.body)     
+        const user=await UserModel.findOne({email:req.body.email}).select("estado role email")      
+        if(!user){
+            res.status(403).send("No se ha encontrado el usuario")
+        }
+        else{
+            const data = {
+                token: await tokenSign(user),
+                user: user
+            }
+            res.send(data)  
+        }
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
+}
 
-module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser}
+
+module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser,recoverPassword}
