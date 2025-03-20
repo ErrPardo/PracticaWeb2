@@ -1,9 +1,10 @@
 const express=require('express')
 
-const {crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario, getUser, uploadImage}=require('../controllers/users.js')
+const {crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario, getUser, uploadImage,deleteUser}=require('../controllers/users.js')
 const {validatorRegister,validatorVerification, validatorLogin,validatorRegisterPut, validatorCompany, validatorLogo}=require("../validators/userValidator.js")
 const verificationMiddleware = require('../middleware/verificationMiddleware.js')
 const { uploadMiddleware } = require('../utils/handlestorage.js')
+const authMiddleware = require('../middleware/authMiddleware.js')
 
 
 routerUsers=express.Router()
@@ -28,5 +29,7 @@ routerUsers.patch('/logo',uploadMiddleware.single("image"),(err,req,res,next)=>{
         res.status(400).send("El archivo es demasiado grande")
     }
 },uploadImage,validatorLogo,modificarUsuario)
+
+routerUsers.delete('/',authMiddleware,deleteUser)
 
 module.exports=routerUsers

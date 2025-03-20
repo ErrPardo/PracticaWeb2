@@ -147,13 +147,15 @@ const uploadImage = async (req, res,next) => {
     try {
         const id = req.params.id
         const fileBuffer = req.file.buffer
+        console.log(fileBuffer)
         const fileName = req.file.originalname
-        const pinataResponse = await uploadToPinata(fileBuffer, fileName)
-        const ipfsFile = pinataResponse.IpfsHash
-        const ipfs = `https://${process.env.PINATA_GATEWAY_URL}/ipfs/${ipfsFile}`
-        const data = await StorageModel.create({"filename":fileName,"image":ipfs,"url":ipfs})
-        req.body={logoId:data._id}
-        next()
+        //const pinataResponse = await uploadToPinata(fileBuffer, fileName)
+        //const ipfsFile = pinataResponse.IpfsHash
+        //const ipfs = `https://${process.env.PINATA_GATEWAY_URL}/ipfs/${ipfsFile}`
+        //const data = await StorageModel.create({"filename":fileName,"image":ipfs,"url":ipfs})
+        //req.body={logoId:data._id}
+        //next()
+        res.send("ok")
     }catch(err) {
         console.log(err)
         res.status(500).send("ERROR_UPLOAD_COMPANY_IMAGE")
@@ -163,12 +165,23 @@ const uploadImage = async (req, res,next) => {
 
 const deleteUser=async(req,res)=>{
     try{
-
+        const user=req.user
+        const { soft } = req.query
+        if(soft=="false"){
+            const data = await UserModel.findOneAndDelete({"email": user.email})
+            res.send(data)
+        }
+        else{
+            const newUser=await UserModel.findOneAndUpdate({"email":user.email},{user,deleted:true},{ new: true })
+            res.send(newUser)
+        }
+        
     }
     catch(e){
+        console.log(e)
         res.status(500).send(e)
     }
 }
 
 
-module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage}
+module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser}

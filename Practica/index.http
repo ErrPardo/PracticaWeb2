@@ -58,7 +58,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhZTRkM
 ###
 PATCH http://localhost:3000/api/users/logo HTTP/1.1
 Content-Type: multipart/form-data; boundary=boundary123
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RjM2M1NGViYWU2ZTNhMzYzNDU5ZGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNDg2NjEyLCJleHAiOjE3NDI0OTM4MTJ9.qPGRmhQqLw_mlQwjrlzVKd8X4jMN_VGI8-MlvOTcHCA
 
 --boundary123
 Content-Disposition: form-data; name="image"; filename="image.png"
@@ -77,3 +76,6 @@ Content-Type: application/json
   "to": "eduardoyc04@gmail.com",
   "from": "eduardoyc04@gmail.com"
 }
+###
+DELETE http://localhost:3000/api/users?soft=true
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RjNTQ4ZmFkMzJlZjIzMzAzZDQwOWYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNDkyODE1LCJleHAiOjE3NDI1MDAwMTV9.5UFuFMjisZ0gcki2XBRjLl04QGDu8mHI3nQieRiQ2Ek
