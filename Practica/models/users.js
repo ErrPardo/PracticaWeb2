@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const mongooseDelete=require("mongoose-delete")
 
 const UserModel=new mongoose.Schema(
     {
@@ -55,6 +56,10 @@ const UserModel=new mongoose.Schema(
                 type:String
             }
         },
+        logoId:{
+            type:mongoose.Types.ObjectId,
+            ref:'storages'
+        }
     }
     ,
     {
@@ -62,5 +67,5 @@ const UserModel=new mongoose.Schema(
         versionKey: false
     }
 )
-
+UserModel.plugin(mongooseDelete,{overrideMethods:"all"})
 module.exports=mongoose.model("users",UserModel)

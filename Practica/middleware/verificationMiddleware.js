@@ -13,13 +13,18 @@ const verificationMiddleware= async (req,res,next)=>{
             const tokenData=await verifyToken(token)
             if(tokenData){
                 const user=await UserModel.findById(tokenData._id)
-                
-                if(user.codigoAleatorio===req.body.code){
-                    req.user=user
-                    next()
+                if(Number(process.env.INTENTOS_MAX)==user.intentos){
+                    res.status(403).send("Maximo intento generado")
                 }
                 else{
-                    res.status(403).send("Error en el codigo de verificacion")
+                    if(user.codigoAleatorio===req.body.code){
+                        req.user=user
+                        next()
+                    }
+                    else{
+                        const newUser=await UserModel.findOneAndUpdate({"email":user.email},{user,$inc:{intentos:1}})
+                        res.status(403).send("Error en el codigo de verificacion")
+                    }
                 }
             }
             else{
@@ -28,6 +33,7 @@ const verificationMiddleware= async (req,res,next)=>{
         }  
     }
     catch(e){
+        console.log(e)
         res.status(500).send(e)
     }
     

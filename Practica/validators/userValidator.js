@@ -37,6 +37,13 @@ const validatorRegisterPut=[
     }
 ]
 
+const validatorLogo=[
+    check("logoId").exists().notEmpty(),
+    (req,res,next)=>{
+        return validateResults(req,res,next)
+    }
+]
+
 const validatorCompany=[
     check("company.name").exists().notEmpty(),
     check("company.cif").exists().notEmpty().isLength(9),
@@ -50,4 +57,4 @@ const validatorCompany=[
     }
 ]
 
-module.exports={validatorRegister,validatorVerification,validatorLogin,validatorRegisterPut,validatorCompany}
+module.exports={validatorRegister,validatorVerification,validatorLogin,validatorRegisterPut,validatorCompany,validatorLogo}

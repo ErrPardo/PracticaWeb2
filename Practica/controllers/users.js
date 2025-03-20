@@ -1,7 +1,9 @@
 const { matchedData } = require('express-validator')
 const UserModel=require('../models/users.js')
+const StorageModel=require('../models/storage.js')
 const { encrypt,compare } = require('../utils/handlePassword.js')
 const { tokenSign,verifyToken } = require('../utils/handleToken.js')
+const uploadToPinata=require('../utils/handleUploadIPFS.js')
 const crypto = require('crypto');
 
 //TODO cifrar constraseña para cuando se envie
@@ -25,12 +27,13 @@ const getUser=async(req,res)=>{
             const token=req.headers.authorization.match(/Bearer\s(\S+)/)[1]
             const tokenData=await verifyToken(token)
             if(tokenData){
-                const user=await UserModel.findById(tokenData._id)
+                const user=await UserModel.findById(tokenData._id).populate('logoId')
                 res.send(user)
             }
         }
     }
     catch(e){
+        console.log(e)
         res.status(500).send(e)
     }
 }
@@ -40,7 +43,7 @@ const crearUsuario=async (req,res)=>{
         if(req){
             const password=await encrypt(req.password)
             codigoAleatorio=crypto.randomInt(100000, 1000000)
-            intentos=3
+            intentos=0
             const body={...req,password,codigoAleatorio,intentos}
             const result=await UserModel.create(body)
             if(result){
@@ -82,7 +85,7 @@ const modificarUsuarioRegister=async (req,res)=>{
     }
 }
 
-const loginUsuario=async (req,res,next)=>{
+const loginUsuario=async (req,res)=>{
     try{
         req=matchedData(req)
         if(!req){
@@ -139,4 +142,33 @@ const modificarUsuario=async (req,res)=>{
     }
 }
 
-module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser}
+
+const uploadImage = async (req, res,next) => {
+    try {
+        const id = req.params.id
+        const fileBuffer = req.file.buffer
+        const fileName = req.file.originalname
+        const pinataResponse = await uploadToPinata(fileBuffer, fileName)
+        const ipfsFile = pinataResponse.IpfsHash
+        const ipfs = `https://${process.env.PINATA_GATEWAY_URL}/ipfs/${ipfsFile}`
+        const data = await StorageModel.create({"filename":fileName,"image":ipfs,"url":ipfs})
+        req.body={logoId:data._id}
+        next()
+    }catch(err) {
+        console.log(err)
+        res.status(500).send("ERROR_UPLOAD_COMPANY_IMAGE")
+        //handleHttpError(res, "ERROR_UPLOAD_COMPANY_IMAGE")
+    }
+}
+
+const deleteUser=async(req,res)=>{
+    try{
+
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
+}
+
+
+module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage}
