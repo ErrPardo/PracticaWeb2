@@ -1,6 +1,7 @@
 const {check}=require("express-validator")
 
 const validateResults=require("../utils/handleValidator")
+const { addressvalidation } = require("googleapis/build/src/apis/addressvalidation")
 
 const validatorRegister=[
     check("email").exists().notEmpty().isEmail(),
@@ -32,6 +33,7 @@ const validatorRegisterPut=[
     check("name").exists().notEmpty(),
     check("surnames").exists().notEmpty(),
     check("nif").exists().notEmpty().isLength(9),
+    check("autonomo").exists().notEmpty(),
     (req,res,next)=>{
         return validateResults(req,res,next)
     }
@@ -57,4 +59,15 @@ const validatorCompany=[
     }
 ]
 
-module.exports={validatorRegister,validatorVerification,validatorLogin,validatorRegisterPut,validatorCompany,validatorLogo}
+const addressValidator=[
+    check("address.street").exists().notEmpty(),
+    check("address.number").exists().notEmpty(),
+    check("address.postal").exists().notEmpty().isLength(5),
+    check("address.city").exists().notEmpty(),
+    check("address.province").exists().notEmpty(),
+    (req,res,next)=>{
+        return validateResults(req,res,next)
+    }
+]
+
+module.exports={validatorRegister,validatorVerification,validatorLogin,validatorRegisterPut,validatorCompany,validatorLogo,addressValidator}

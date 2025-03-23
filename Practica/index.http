@@ -31,18 +31,19 @@ Content-Type: application/json
 ###
 PUT http://localhost:3000/api/users/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhZTRkMzMwNjAwNDhmZTRhOGY1MzkiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMzk4Njc1LCJleHAiOjE3NDI0MDU4NzV9.OY8Td__4bZlzeBEQyZGalNuOA_fX3daFyubQXc7GRKc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2NzljMmI5MTE3ODBiNWNiYmUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNzQ2NDcxLCJleHAiOjE3NDI3NTM2NzF9.ucPAvfMqG3wQ05RU43KNRZcdt5bRTfzPVqbSFclj9_Y
 
 {
-  "email": "pardo@gmail.com",
+  "email": "nicolaila@gmail.com",
   "name": "Nicolas",
   "surnames": "Calvo",
-  "nif": "40000000W"
+  "nif": "40000000W",
+  "autonomo":true
 }
 ###
 PATCH http://localhost:3000/api/users/company
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RhZTRkMzMwNjAwNDhmZTRhOGY1MzkiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyMzk4Njc1LCJleHAiOjE3NDI0MDU4NzV9.OY8Td__4bZlzeBEQyZGalNuOA_fX3daFyubQXc7GRKc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2NzljMmI5MTE3ODBiNWNiYmUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNzQ2NDcxLCJleHAiOjE3NDI3NTM2NzF9.ucPAvfMqG3wQ05RU43KNRZcdt5bRTfzPVqbSFclj9_Y
 
 {
   "company": {
@@ -86,5 +87,20 @@ Content-Type: application/json
 
 {
   "email":"nicolaila@gmail.com",
-  "code":228920
+  "code":285047
+}
+
+###
+PATCH http://localhost:3000/api/users/address
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2NzljMmI5MTE3ODBiNWNiYmUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNzQ2NDcxLCJleHAiOjE3NDI3NTM2NzF9.ucPAvfMqG3wQ05RU43KNRZcdt5bRTfzPVqbSFclj9_Y
+
+{
+  "address": {
+    "street": "Carlos V",
+    "number": 22,
+    "postal": 28936,
+    "city": "Móstoles",
+    "province": "Madrid"
+  }
 }

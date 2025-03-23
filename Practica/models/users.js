@@ -33,6 +33,9 @@ const UserModel=new mongoose.Schema(
         nif:{
             type:String
         },
+        autonomo:{
+            type:Boolean
+        },
         company:{
             name:{
                 type:String
@@ -59,6 +62,23 @@ const UserModel=new mongoose.Schema(
         logoId:{
             type:mongoose.Types.ObjectId,
             ref:'storages'
+        },
+        address: {
+            street:{
+                type:String
+            },
+            number:{
+                type:Number
+            },
+            postal:{
+                type:Number
+            } ,
+            city:{
+                type:String
+            },
+            province:{
+                type:String
+            },
         }
     }
     ,

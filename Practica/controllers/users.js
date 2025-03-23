@@ -118,7 +118,7 @@ const loginUsuario=async (req,res)=>{
 }
 
 const modificarUsuario=async (req,res)=>{
-    try{
+    
         if(!req.headers.authorization){
             res.status(401).send("No hay cabecera/token en la peticion")
         }
@@ -128,18 +128,36 @@ const modificarUsuario=async (req,res)=>{
                 const token=req.headers.authorization.match(/Bearer\s(\S+)/)[1]
                 const tokenData=await verifyToken(token)
                 if(tokenData){
-                    const user=await UserModel.findByIdAndUpdate(tokenData._id,req.body,{returnDocument:'after'})
-                    res.status(200).send(user)
+                    var data={}
+                    const user=await UserModel.findById(tokenData._id)
+                    if(user.autonomo==true){
+                        if(req.body.company && user.address && user.nif && user.name){
+                            const company={
+                                "name":user.name,
+                                "cif":user.nif,
+                                "street": user.address.street,
+                                "number": user.address.number,
+                                "postal": user.address.postal,
+                                "city": user.address.city,
+                                "province": user.address.province
+                            }
+                            data={...req.body,company} 
+                        }else{
+                            res.status(403).send("Faltan alguno de estos datos address,nif,name en el usuario")
+                        }             
+                    }
+                    else{
+                        data={...req.body}
+                    }
+                    const resData=await UserModel.findOneAndUpdate({ _id: user._id },data,{returnDocument:'after'})
+                    res.status(200).send(resData)
                 }   
             }
             else{
                 res.status(403).send("Problemas con el body")
             }
         }
-    }
-    catch(e){
-        res.status(500).send(e)
-    }
+    
 }
 
 
