@@ -113,7 +113,7 @@ Content-Type: application/json
   "surnames": "Pérez Gómez",
   "email": "guest@gmail.com",
   "password":"password",
-  "role":"guest"
+  "role":"guest",
   "company": {
     "name": "Servitop, SL.",
     "cif": "BXXXXXXXX",
