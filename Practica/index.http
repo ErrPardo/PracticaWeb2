@@ -1,7 +1,7 @@
 
 
 GET http://localhost:3000/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RjM2M1NGViYWU2ZTNhMzYzNDU5ZGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNDg2NjEyLCJleHAiOjE3NDI0OTM4MTJ9.qPGRmhQqLw_mlQwjrlzVKd8X4jMN_VGI8-MlvOTcHCA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UxNzc5MmIzMGExM2ZhNmQ3ZmMxY2EiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyODI5NDU4LCJleHAiOjE3NDI4MzY2NTh9.CkO2iMmcw8bdJ5uiWUtj424BFuDiXimVLAd7h1qDIvY
 ###
 POST http://localhost:3000/api/users/register
 Content-Type: application/json
@@ -13,10 +13,10 @@ Content-Type: application/json
 ###
 PUT http://localhost:3000/api/users/validation
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RjM2M1NGViYWU2ZTNhMzYzNDU5ZGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNDg2NjEyLCJleHAiOjE3NDI0OTM4MTJ9.qPGRmhQqLw_mlQwjrlzVKd8X4jMN_VGI8-MlvOTcHCA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UxNzc5MmIzMGExM2ZhNmQ3ZmMxY2EiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyODI5NDU4LCJleHAiOjE3NDI4MzY2NTh9.CkO2iMmcw8bdJ5uiWUtj424BFuDiXimVLAd7h1qDIvY
 
 {
-  "code":140795
+  "code":777253
 }
 
 ###
@@ -43,7 +43,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2N
 ###
 PATCH http://localhost:3000/api/users/company
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2NzljMmI5MTE3ODBiNWNiYmUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNzQ2NDcxLCJleHAiOjE3NDI3NTM2NzF9.ucPAvfMqG3wQ05RU43KNRZcdt5bRTfzPVqbSFclj9_Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UxNzc5MmIzMGExM2ZhNmQ3ZmMxY2EiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyODI5NDU4LCJleHAiOjE3NDI4MzY2NTh9.CkO2iMmcw8bdJ5uiWUtj424BFuDiXimVLAd7h1qDIvY
 
 {
   "company": {
@@ -97,6 +97,26 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2N
 
 {
   "address": {
+    "street": "Carlos V",
+    "number": 22,
+    "postal": 28936,
+    "city": "Móstoles",
+    "province": "Madrid"
+  }
+}
+###
+POST http://localhost:3000/api/users/invite
+Content-Type: application/json
+
+{
+  "name": "Manuel",
+  "surnames": "Pérez Gómez",
+  "email": "guest@gmail.com",
+  "password":"password",
+  "role":"guest"
+  "company": {
+    "name": "Servitop, SL.",
+    "cif": "BXXXXXXXX",
     "street": "Carlos V",
     "number": 22,
     "postal": 28936,

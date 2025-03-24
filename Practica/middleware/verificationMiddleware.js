@@ -15,7 +15,10 @@ const verificationMiddleware= async (req,res,next)=>{
                 const user=await UserModel.findById(tokenData._id)
                 if(Number(process.env.INTENTOS_MAX)==user.intentos){
                     //TODO poner el delete true
-                    res.status(403).send("Maximo intento generado")
+                    if(user.deleted!=true){
+                        const newUser=await UserModel.findOneAndUpdate({"email":user.email},{user,deleted:true},{ new: true })
+                    }
+                    res.status(403).send("Maximos intentos alcanzado, cuenta bloqueada")
                 }
                 else{
                     if(user.codigoAleatorio===req.body.code){
