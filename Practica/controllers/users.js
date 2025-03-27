@@ -37,6 +37,22 @@ const getUser=async(req,res)=>{
         res.status(500).send(e)
     }
 }
+const comprobarUsuarioVerificado=async(req,res)=>{
+    try{
+        const user=await UserModel.findOne({"email":req.body.email})
+        if(user.estado==true){
+            console.log(user.codigoAleatorio)
+            res.send("Codigo enviado")
+        }
+        else{
+            res.status(500).send("El usuario no esta verificado")
+        }
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
+
+}
 const crearUsuario=async (req,res)=>{
     try{
         req=matchedData(req)
@@ -45,18 +61,40 @@ const crearUsuario=async (req,res)=>{
             codigoAleatorio=crypto.randomInt(100000, 1000000)
             intentos=0
             const body={...req,password,codigoAleatorio,intentos}
-            const result=await UserModel.create(body)
-            if(result){
-                result.set('password', undefined, { strict: false })
-                const data={
-                    token:await tokenSign(result),
-                    user:result
+            if(body.company){
+                const userCompany=await UserModel.findOne({"company":body.company})
+                if(userCompany!=null){
+                    const result=await UserModel.create(body)
+                    if(result){
+                        result.set('password', undefined, { strict: false })
+                        const data={
+                            token:await tokenSign(result),
+                            user:result
+                        }
+                        res.send(data)
+                    }
+                    else{
+                        res.status(409).send("El usuario ya existe")
+                    }
                 }
-                res.send(data)
+                else{
+                    res.status(402).send("No existe la compañia introducida")
+                } 
             }
             else{
-                res.status(409).send("El usuario ya existe")
-            }
+                const result=await UserModel.create(body)
+                if(result){
+                    result.set('password', undefined, { strict: false })
+                    const data={
+                        token:await tokenSign(result),
+                        user:result
+                    }
+                    res.send(data)
+                }
+                else{
+                    res.status(409).send("El usuario ya existe")
+                }
+            }    
         }
         else{
             res.status(400).send("Problemas con el body")
@@ -142,7 +180,11 @@ const modificarUsuario=async (req,res)=>{
                                 "province": user.address.province
                             }
                             data={...req.body,company} 
-                        }else{
+                        }
+                        else if(req.body.address){
+                            data={...req.body}
+                        }
+                        else{
                             res.status(403).send("Faltan alguno de estos datos address,nif,name en el usuario")
                         }             
                     }
@@ -222,4 +264,4 @@ const recoverPassword=async(req,res)=>{
 }
 
 
-module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser,recoverPassword}
+module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser,recoverPassword,comprobarUsuarioVerificado}

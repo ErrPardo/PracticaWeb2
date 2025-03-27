@@ -13,10 +13,10 @@ Content-Type: application/json
 ###
 PUT http://localhost:3000/api/users/validation
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UxNzc5MmIzMGExM2ZhNmQ3ZmMxY2EiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyODI5NDU4LCJleHAiOjE3NDI4MzY2NTh9.CkO2iMmcw8bdJ5uiWUtj424BFuDiXimVLAd7h1qDIvY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1Mjk5ZjFjNzFhMjAwNTkwMDE5ZmYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQzMDcxNjQ3LCJleHAiOjE3NDMwNzg4NDd9.IB17oh8QA-F9ojuaAhZ7GV4BRQ43Qw4WEc2a6tpKTIg
 
 {
-  "code":777253
+  "code":580329
 }
 
 ###
@@ -31,7 +31,7 @@ Content-Type: application/json
 ###
 PUT http://localhost:3000/api/users/register
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2NzljMmI5MTE3ODBiNWNiYmUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNzQ2NDcxLCJleHAiOjE3NDI3NTM2NzF9.ucPAvfMqG3wQ05RU43KNRZcdt5bRTfzPVqbSFclj9_Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1Mjk5ZjFjNzFhMjAwNTkwMDE5ZmYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQzMDcxNjY5LCJleHAiOjE3NDMwNzg4Njl9.INF1N0jyLbIvTe2M_LSjYzqzr2El1IaySaX1cUzafTA
 
 {
   "email": "nicolaila@gmail.com",
@@ -43,7 +43,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2N
 ###
 PATCH http://localhost:3000/api/users/company
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UxNzc5MmIzMGExM2ZhNmQ3ZmMxY2EiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyODI5NDU4LCJleHAiOjE3NDI4MzY2NTh9.CkO2iMmcw8bdJ5uiWUtj424BFuDiXimVLAd7h1qDIvY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1MmUyYTk0NzI2ZjkwODgzNTg3MGEiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQzMDcyODEwLCJleHAiOjE3NDMwODAwMTB9.YXi6YC_MFvVIuo5Q_Nc2fUVyyMudTF6UaPheGMVlYMs
 
 {
   "company": {
@@ -80,6 +80,14 @@ Content-Type: application/json
 ###
 DELETE http://localhost:3000/api/users?soft=true
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RjNTQ4ZmFkMzJlZjIzMzAzZDQwOWYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNDkyODE1LCJleHAiOjE3NDI1MDAwMTV9.5UFuFMjisZ0gcki2XBRjLl04QGDu8mHI3nQieRiQ2Ek
+###
+
+GET http://localhost:3000/api/users/verify
+Content-Type: application/json
+
+{
+  "email":"nicolaila@gmail.com" 
+}
 
 ###
 POST http://localhost:3000/api/users/validation
@@ -87,13 +95,13 @@ Content-Type: application/json
 
 {
   "email":"nicolaila@gmail.com",
-  "code":285047
+  "code":777255
 }
 
 ###
 PATCH http://localhost:3000/api/users/address
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2UwMzM2NzljMmI5MTE3ODBiNWNiYmUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQyNzQ2NDcxLCJleHAiOjE3NDI3NTM2NzF9.ucPAvfMqG3wQ05RU43KNRZcdt5bRTfzPVqbSFclj9_Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1Mjk5ZjFjNzFhMjAwNTkwMDE5ZmYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQzMDcxNjY5LCJleHAiOjE3NDMwNzg4Njl9.INF1N0jyLbIvTe2M_LSjYzqzr2El1IaySaX1cUzafTA
 
 {
   "address": {
