@@ -207,15 +207,13 @@ const uploadImage = async (req, res,next) => {
     try {
         const id = req.params.id
         const fileBuffer = req.file.buffer
-        console.log(fileBuffer)
         const fileName = req.file.originalname
-        //const pinataResponse = await uploadToPinata(fileBuffer, fileName)
-        //const ipfsFile = pinataResponse.IpfsHash
-        //const ipfs = `https://${process.env.PINATA_GATEWAY_URL}/ipfs/${ipfsFile}`
-        //const data = await StorageModel.create({"filename":fileName,"image":ipfs,"url":ipfs})
-        //req.body={logoId:data._id}
-        //next()
-        res.send("ok")
+        const pinataResponse = await uploadToPinata(fileBuffer, fileName)
+        const ipfsFile = pinataResponse.IpfsHash
+        const ipfs = `https://${process.env.PINATA_GATEWAY_URL}/ipfs/${ipfsFile}`
+        const data = await StorageModel.create({"filename":fileName,"image":ipfs,"url":ipfs})
+        req.body={logoId:data._id}
+        next()
     }catch(err) {
         console.log(err)
         res.status(500).send("ERROR_UPLOAD_COMPANY_IMAGE")

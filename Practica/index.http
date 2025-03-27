@@ -59,6 +59,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1MmUyY
 ###
 PATCH http://localhost:3000/api/users/logo HTTP/1.1
 Content-Type: multipart/form-data; boundary=boundary123
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U1MmUyYTk0NzI2ZjkwODgzNTg3MGEiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQzMDcyODEwLCJleHAiOjE3NDMwODAwMTB9.YXi6YC_MFvVIuo5Q_Nc2fUVyyMudTF6UaPheGMVlYMs
 
 --boundary123
 Content-Disposition: form-data; name="image"; filename="image.png"
