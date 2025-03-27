@@ -59,6 +59,7 @@ const crearUsuario=async (req,res)=>{
         if(req){
             const password=await encrypt(req.password)
             codigoAleatorio=crypto.randomInt(100000, 1000000)
+            console.log(codigoAleatorio)
             intentos=0
             const body={...req,password,codigoAleatorio,intentos}
             if(body.company){
