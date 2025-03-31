@@ -19,18 +19,9 @@ const crypto = require('crypto');
 
 
 const getUser=async(req,res)=>{
-    try{
-        if(!req.headers.authorization){
-            res.status(401).send("No hay cabecera/token en la peticion")
-        }
-        else{
-            const token=req.headers.authorization.match(/Bearer\s(\S+)/)[1]
-            const tokenData=await verifyToken(token)
-            if(tokenData){
-                const user=await UserModel.findById(tokenData._id).populate('logoId')
-                res.send(user)
-            }
-        }
+    try{   
+        const user=await UserModel.findById(req.user._id).populate('logoId')
+        res.send(user)  
     }
     catch(e){
         console.log(e)
@@ -164,37 +155,33 @@ const modificarUsuario=async (req,res)=>{
         else{
             req.body=matchedData(req)         
             if(req.body){
-                const token=req.headers.authorization.match(/Bearer\s(\S+)/)[1]
-                const tokenData=await verifyToken(token)
-                if(tokenData){
-                    var data={}
-                    const user=await UserModel.findById(tokenData._id)
-                    if(user.autonomo==true){
-                        if(req.body.company && user.address && user.nif && user.name){
-                            const company={
-                                "name":user.name,
-                                "cif":user.nif,
-                                "street": user.address.street,
-                                "number": user.address.number,
-                                "postal": user.address.postal,
-                                "city": user.address.city,
-                                "province": user.address.province
-                            }
-                            data={...req.body,company} 
+                var data={}
+                const user=await UserModel.findById(req.user._id)
+                if(user.autonomo==true && req.body.company){
+                    if(user.address && user.nif && user.name){
+                        const company={
+                            "name":user.name,
+                            "cif":user.nif,
+                            "street": user.address.street,
+                            "number": user.address.number,
+                            "postal": user.address.postal,
+                            "city": user.address.city,
+                            "province": user.address.province
                         }
-                        else if(req.body.address){
-                            data={...req.body}
-                        }
-                        else{
-                            res.status(403).send("Faltan alguno de estos datos address,nif,name en el usuario")
-                        }             
+                        data={...req.body,company} 
                     }
-                    else{
+                    else if(req.body.address){
                         data={...req.body}
                     }
-                    const resData=await UserModel.findOneAndUpdate({ _id: user._id },data,{returnDocument:'after'})
-                    res.status(200).send(resData)
-                }   
+                    else{
+                        res.status(403).send("Faltan alguno de estos datos address,nif,name en el usuario")
+                    }             
+                }
+                else{
+                    data={...req.body}
+                }
+                const resData=await UserModel.findOneAndUpdate({ _id: user._id },data,{returnDocument:'after'})
+                res.status(200).send(resData)  
             }
             else{
                 res.status(403).send("Problemas con el body")
@@ -203,6 +190,23 @@ const modificarUsuario=async (req,res)=>{
     
 }
 
+const cambiarPassword=async(req,res)=>{
+    try{
+        req=matchedData(req)
+        if(req){
+            const password=await encrypt(req.password)
+            const data={...req,password}
+            const user=await UserModel.findOneAndUpdate({email:req.email},data,{returnDocument:'after'})
+            res.send(user)
+        }
+        else{
+            res.satus(403).send("Problemas con el body")
+        }
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
+}
 
 const uploadImage = async (req, res,next) => {
     try {
@@ -263,4 +267,4 @@ const recoverPassword=async(req,res)=>{
 }
 
 
-module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser,recoverPassword,comprobarUsuarioVerificado}
+module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser,recoverPassword,comprobarUsuarioVerificado,cambiarPassword}
