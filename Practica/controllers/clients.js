@@ -26,5 +26,29 @@ const crearClient=async(req,res)=>{
     }
 }
 
+const getClients=async (req,res)=>{
+    try{
+        const id=req.user._id
+        const client=await ClientModel.find({"userId":id})
+        res.send(client)
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).send(e)
+    }
+}
 
-module.exports={crearClient}
+const getOneClientById=async (req,res)=>{
+    try{
+        const id=req.user._id
+        const client=await ClientModel.find({"userId":id, _id:req.params.id})
+        res.send(client)
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).send(e)
+    }
+}
+
+
+module.exports={crearClient,getClients,getOneClientById}

@@ -1,15 +1,15 @@
 const express=require('express')
 
 const {validateClient}=require('../validators/clientValidator')
-const { crearClient } = require('../controllers/clients')
+const { crearClient,getClients,getOneClientById } = require('../controllers/clients')
 const authMiddleware = require('../middleware/authMiddleware.js')
 
 routerClient=express.Router()
 routerClient.use(express.json())
 
-routerClient.get('/',)
+routerClient.get('/',authMiddleware,getClients)
 
-routerClient.get('/:id',)
+routerClient.get('/:id',authMiddleware,getOneClientById)
 
 routerClient.get('/archive')
 

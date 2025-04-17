@@ -154,7 +154,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAxMzgwMzA3NmY2YTFlMTZkMGM0OTYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTEwMzM5LCJleHAiOjE3NDQ5MTc1Mzl9.EqbySnYls03W6v6GEofEpqCUpibV2-zJrCJhnXERKyo
 
 {
-  "name": "ACS",
+  "name": "ACS2",
   "cif": "D52921210",
   "address": {
     "street": "Carlos V",
@@ -164,3 +164,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAxMzgwM
     "province": "Madrid"
   }
 }
+
+###
+GET http://localhost:3000/api/client
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAxMzgwMzA3NmY2YTFlMTZkMGM0OTYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTEwMzM5LCJleHAiOjE3NDQ5MTc1Mzl9.EqbySnYls03W6v6GEofEpqCUpibV2-zJrCJhnXERKyo
+
+###
+GET http://localhost:3000/api/client/68013949de04313a20edb65e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAxMzgwMzA3NmY2YTFlMTZkMGM0OTYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTEwMzM5LCJleHAiOjE3NDQ5MTc1Mzl9.EqbySnYls03W6v6GEofEpqCUpibV2-zJrCJhnXERKyo
+
