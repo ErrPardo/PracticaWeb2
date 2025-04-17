@@ -6,6 +6,7 @@ const UserModel=require('../models/users.js')
 
 const api = supertest(app);
 var t=null
+var clientId=null
 
 beforeAll(async () => {
     await new Promise((resolve) => mongoose.connection.once('connected', resolve));
@@ -31,10 +32,12 @@ it('should create a client',async()=>{
           "province": "Madrid"
         }
     }
-    await api.post('/api/client').send(client)
+    res=await api.post('/api/client').send(client)
     .set('Authorization', `Bearer ${t}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
+
+    clientId=res.body._id
 })
 
 it('should return 422 if client already exists',async()=>{
@@ -52,6 +55,22 @@ it('should return 422 if client already exists',async()=>{
     await api.post('/api/client').send(client)
     .set('Authorization', `Bearer ${t}`)
     .expect(422)
+})
+
+
+it('should get clients',async()=>{
+    await api.get('/api/client/')
+    .set('Authorization', `Bearer ${t}`)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+})
+
+
+it('should get clients',async()=>{
+    await api.get(`/api/client/${clientId}`)
+    .set('Authorization', `Bearer ${t}`)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 })
 
 afterAll(async()=> {
