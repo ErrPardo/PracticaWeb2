@@ -56,7 +56,7 @@ const crearUsuario=async (req,res)=>{
             codigoAleatorio=crypto.randomInt(100000, 1000000)
             console.log(codigoAleatorio)
             intentos=0
-            const body={...req,password,codigoAleatorio,intentos}
+            const body={...req,password,intentos}
             if(body.company){
                 const userCompany=await UserModel.findOne({"company":body.company})
                 if(userCompany!=null){
