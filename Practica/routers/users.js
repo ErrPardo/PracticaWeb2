@@ -1,6 +1,6 @@
 const express=require('express')
 
-const {crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario, getUser, uploadImage,deleteUser,recoverPassword, comprobarUsuarioVerificado,cambiarPassword}=require('../controllers/users.js')
+const {crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario, getUser, uploadImage,deleteUser,recoverPassword, comprobarUsuarioVerificado,cambiarPassword, AllUsers}=require('../controllers/users.js')
 const {validatorRegister,validatorVerification, validatorLogin,validatorRegisterPut, validatorCompany, validatorLogo, addressValidator,inviteValidator}=require("../validators/userValidator.js")
 const verificationMiddleware = require('../middleware/verificationMiddleware.js')
 const { uploadMiddlewareMemory } = require('../utils/handlestorage.js')
@@ -10,8 +10,31 @@ const authMiddleware = require('../middleware/authMiddleware.js')
 routerUsers=express.Router()
 routerUsers.use(express.json())
 
+routerUsers.get('/allUsers',AllUsers)
+
 routerUsers.get('/',authMiddleware,getUser)
 
+/**
+* @openapi
+* /api/users/register:
+*  post:
+*      tags:
+*      - User
+*      summary: "User register"
+*      description: Register a new user
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                       $ref: "#/components/schemas/user"
+*      responses:
+*          '200':
+*              description: Returns the inserted object
+*          '401':
+*              description: Validation error
+*      security:
+*          - bearerAuth: []
+*/
 routerUsers.post('/register',validatorRegister,crearUsuario)
 
 routerUsers.put('/validation',validatorVerification,verificationMiddleware,modificarUsuarioRegister)

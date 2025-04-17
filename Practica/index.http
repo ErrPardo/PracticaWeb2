@@ -1,7 +1,11 @@
 
 
+###
+GET http://localhost:3000/api/users/allUsers
+###
+
 GET http://localhost:3000/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2VhYWE2Mjk5N2UyYmRlYjc2OTc2OTUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQzNDMyMjkwLCJleHAiOjE3NDM0Mzk0OTB9.ypZRam9O0H92dS3OH9SIKR-UodDWFpiNoo-Aueg9F28
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Y2MjBjNWYzM2ZmN2NkMWRlMWJjODMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0MTgzNDkzLCJleHAiOjE3NDQxOTA2OTN9.zV1WGVVk59HI7_WkUt7zcYHd-YOHEo1qdB5ETucf3Lw
 ###
 POST http://localhost:3000/api/users/register
 Content-Type: application/json
@@ -13,10 +17,10 @@ Content-Type: application/json
 ###
 PUT http://localhost:3000/api/users/validation
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2VhYWE2Mjk5N2UyYmRlYjc2OTc2OTUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQzNDMyMjkwLCJleHAiOjE3NDM0Mzk0OTB9.ypZRam9O0H92dS3OH9SIKR-UodDWFpiNoo-Aueg9F28
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Y2MjBjNWYzM2ZmN2NkMWRlMWJjODMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0MTgzNDkzLCJleHAiOjE3NDQxOTA2OTN9.zV1WGVVk59HI7_WkUt7zcYHd-YOHEo1qdB5ETucf3Lw
 
 {
-  "code":464008
+  "code":898955
 }
 
 ###

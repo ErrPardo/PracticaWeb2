@@ -17,6 +17,10 @@ const crypto = require('crypto');
 //genera un numero aleatorio y ponemos en el body del usuario
 //en el verify pone token en la autorizacion y numero aleatorio en el body, despues cogemos con el token la id y comprobamos ,
 
+const AllUsers=async(req,res)=>{
+    const users=await UserModel.find()
+    res.send(users)
+}
 
 const getUser=async(req,res)=>{
     try{   
@@ -267,4 +271,4 @@ const recoverPassword=async(req,res)=>{
 }
 
 
-module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser,recoverPassword,comprobarUsuarioVerificado,cambiarPassword}
+module.exports={crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario,getUser,uploadImage,deleteUser,recoverPassword,comprobarUsuarioVerificado,cambiarPassword,AllUsers}
