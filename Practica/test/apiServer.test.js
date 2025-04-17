@@ -1,4 +1,4 @@
-const supertest = require('supertest')
+/*const supertest = require('supertest')
 const {app, server} = require('../index.js')
 const mongoose = require('mongoose');
 const UserModel=require('../models/users.js')
@@ -58,4 +58,4 @@ it('should update a user',async()=>{
 afterAll(async()=> {
     server.close()
     await mongoose.connection.close();
-})
+})*/

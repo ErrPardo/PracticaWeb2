@@ -151,7 +151,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/api/client
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAxMmEwODA1MDZkNTc5NjZjZWI1Y2MiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTA2NzYwLCJleHAiOjE3NDQ5MTM5NjB9.T5RKpUEXG4sI2xbECZ20C72X9Ym2SKjEuq3oE79Ned4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAxMzgwMzA3NmY2YTFlMTZkMGM0OTYiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTEwMzM5LCJleHAiOjE3NDQ5MTc1Mzl9.EqbySnYls03W6v6GEofEpqCUpibV2-zJrCJhnXERKyo
 
 {
   "name": "ACS",

@@ -7,15 +7,13 @@ const crearClient=async(req,res)=>{
         if(req.body){
             const id=req.user._id
             req.body={...req.body,userId:id}
-            
-
             const client=await ClientModel.find(req.body)
-            if(client){
-                res.status(422).send("El cliente ya existe para esta usuario")
-            }
-            else{
+            if(client.length===0){
                 const newClient=await ClientModel.create(req.body)
                 res.send(newClient)
+            }
+            else{
+                res.status(422).send("El cliente ya existe para esta usuario")
             } 
         }
         else{
@@ -23,6 +21,7 @@ const crearClient=async(req,res)=>{
         }
     }
     catch(e){
+        console.log(e)
         res.status(500).send(e)
     }
 }
