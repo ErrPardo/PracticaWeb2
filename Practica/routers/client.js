@@ -11,8 +11,6 @@ routerClient.get('/',authMiddleware,getClients)
 
 routerClient.get('/:id',authMiddleware,getOneClientById)
 
-routerClient.get('/archive',authMiddleware,getOneClientById)
-
 routerClient.delete('/archive/:id',authMiddleware,deleteClient)
 
 routerClient.delete('/:id',authMiddleware,deleteClient)

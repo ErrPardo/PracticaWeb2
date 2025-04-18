@@ -151,7 +151,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/api/client
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyM2NmNDJmZjc4NjBjYWY4ZWQwOTIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTc3MTQwLCJleHAiOjE3NDQ5ODQzNDB9.wHQakRsOcWJWr704ZVR54bRiWIvvsZXKsFGK7G7eLss
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
 
 {
   "name": "ACS2",
@@ -204,4 +204,66 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmO
     "city": "Móstoles",
     "province": "Madrid"
   }
+}
+
+###
+POST http://localhost:3000/api/projects/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+
+{
+  "name": "Nombre del proyecto",
+  "projectCode": "Identificador de proyect",
+  "address": {
+    "street": "Carlos V",
+    "number": 22,
+    "postal": 28936,
+    "city": "Móstoles",
+    "province": "Madrid"
+  },
+  "code": "Código interno del proyecto",
+  "clientId": "6802847062d18bca519a439f"
+}
+###
+
+GET http://localhost:3000/api/projects/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+###
+
+GET http://localhost:3000/api/projects/6802884a5010fd6f5815b448
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+
+###
+DELETE http://localhost:3000/api/projects/6802884a5010fd6f5815b448
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+
+###
+DELETE http://localhost:3000/api/projects/archive/6802871c4ba9472f7c696850
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+
+###
+GET http://localhost:3000/api/projects/archive
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+
+###
+PATCH http://localhost:3000/api/projects/restore/6802871c4ba9472f7c696851
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+
+###
+PUT http://localhost:3000/api/projects/6802871c4ba9472f7c696850
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+
+{
+  "name": "Pardo Project",
+  "projectCode": "Identificador de proyecto",
+  "address": {
+    "street": "Carlos V",
+    "number": 22,
+    "postal": 28936,
+    "city": "Móstoles",
+    "province": "Madrid"
+  },
+  "code": "Código interno del proyecto",
+  "clientId": "6802847062d18bca519a439f"
 }

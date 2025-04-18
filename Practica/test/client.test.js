@@ -3,7 +3,7 @@ const {app, server} = require('../index.js')
 const mongoose = require('mongoose');
 const ClientModel=require('../models/client')
 const UserModel=require('../models/users.js')
-const { ObjectId } = require('mongodb');
+
 
 
 const api = supertest(app);
@@ -22,6 +22,16 @@ beforeAll(async () => {
     t=result.body.token
 });
 
+it('should return 403 if token is expired',async()=>{
+    await api.get('/api/client/')
+    .set('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmOTViYTVjODZkNTAzNTQ2ZjMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTcyNzk0LCJleHAiOjE3NDQ5Nzk5OTR9.ETdVXmlwxT0Smz9KW4iUtp_c6pboYreDMa5LNEFMfd8`)
+    .expect(403)
+})
+
+it(' should return 401 if no token is provided',async()=>{
+    await api.get('/api/client/')
+    .expect(401)
+})
 
 it('should create a client',async()=>{
     const client={
