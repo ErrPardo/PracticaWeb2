@@ -31,7 +31,8 @@ const ClientScheme=new mongoose.Schema(
             type:String
         },
         cif:{
-            type:String
+            type:String,
+            unique:true
         }  
     }
     ,{
