@@ -1,17 +1,16 @@
 const { matchedData } = require('express-validator')
 const ProjectModel=require('../models/projects')
 const ClientModel=require('../models/client')
-const { ObjectId } = require('mongodb');
 
 const crearProject=async(req,res)=>{
     try{
         req.body=matchedData(req)
         if(req.body){
-            const clientMongo=new ObjectId(req.body.clientId)
+            const clientMongo=req.body.clientId
             if((await ClientModel.find({_id:clientMongo})).length!=0){
                 const id=req.user._id
                 req.body={...req.body,userId:id,clientId:clientMongo}
-                const project=await ProjectModel.find({"userId":id,"projectCode":req.body.projectCode})
+                const project=await ProjectModel.find({"userId":id,"clientId":clientMongo,"projectCode":req.body.projectCode})
                 if(project.length===0){
                     const newProject=await ProjectModel.create(req.body)
                     res.send(newProject)
@@ -130,7 +129,7 @@ const modificarProject=async(req,res)=>{
         req.body=matchedData(req)
         if(req.body){
             const id=req.user._id
-            const clientMongo=new ObjectId(req.body.clientId)
+            const clientMongo=req.body.clientId
             if((await ClientModel.find({_id:clientMongo})).length!=0){
                 req.body={...req.body,userId:id,clientId:clientMongo}
                 const data=req.body

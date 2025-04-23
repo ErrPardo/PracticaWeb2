@@ -151,7 +151,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/api/client
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODA4OWIwZjlhZjk2ZjkwMTZkZGM2MTIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Mzk0NDQ3LCJleHAiOjE3NDU0MDE2NDd9.iD-IbauaBYa0E6kBdO20NwqoMPvhwY_d-cY4QKjFSCk
 
 {
   "name": "ACS2",
@@ -170,11 +170,11 @@ GET http://localhost:3000/api/client/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmOTViYTVjODZkNTAzNTQ2ZjMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTcyNzk0LCJleHAiOjE3NDQ5Nzk5OTR9.ETdVXmlwxT0Smz9KW4iUtp_c6pboYreDMa5LNEFMfd8
 
 ###
-GET http://localhost:3000/api/client/68013949de04313a20edb65e
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmOTViYTVjODZkNTAzNTQ2ZjMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTcyNzk0LCJleHAiOjE3NDQ5Nzk5OTR9.ETdVXmlwxT0Smz9KW4iUtp_c6pboYreDMa5LNEFMfd8
+GET http://localhost:3000/api/client/68089b2b9af96f9016ddc616
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODA4OWIwZjlhZjk2ZjkwMTZkZGM2MTIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Mzk0NDQ3LCJleHAiOjE3NDU0MDE2NDd9.iD-IbauaBYa0E6kBdO20NwqoMPvhwY_d-cY4QKjFSCk
 
 ###
-DELETE http://localhost:3000/api/client/68014e47f425ef1b6bf90068
+DELETE http://localhost:3000/api/client/68089b2b9af96f9016ddc616
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmOTViYTVjODZkNTAzNTQ2ZjMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTcyNzk0LCJleHAiOjE3NDQ5Nzk5OTR9.ETdVXmlwxT0Smz9KW4iUtp_c6pboYreDMa5LNEFMfd8
 
 ###
@@ -209,7 +209,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmO
 ###
 POST http://localhost:3000/api/projects/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1MjYyZDE4YmNhNTE5YTQzOWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTk1NDEwLCJleHAiOjE3NDUwMDI2MTB9.13RbpFZYFfP82jpFuxAQKL427as8H7khTyNb5_mJeH0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODA4OWIwZjlhZjk2ZjkwMTZkZGM2MTIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Mzk0NDQ3LCJleHAiOjE3NDU0MDE2NDd9.iD-IbauaBYa0E6kBdO20NwqoMPvhwY_d-cY4QKjFSCk
 
 {
   "name": "Nombre del proyecto",
@@ -222,7 +222,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1M
     "province": "Madrid"
   },
   "code": "Código interno del proyecto",
-  "clientId": "6802847062d18bca519a439f"
+  "clientId": "68089b2b9af96f9016ddc616"
 }
 ###
 
@@ -267,3 +267,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyODQ1M
   "code": "Código interno del proyecto",
   "clientId": "6802847062d18bca519a439f"
 }
+
+###
+GET http://localhost:3000/api/pdf

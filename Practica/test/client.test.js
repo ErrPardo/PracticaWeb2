@@ -22,6 +22,18 @@ beforeAll(async () => {
     t=result.body.token
 });
 
+it('should return 404 if does not exists clients',async()=>{
+    await api.get('/api/client/')
+    .set('Authorization', `Bearer ${t}`)
+    .expect(404)
+})
+
+it('should return 404 if client not found',async()=>{
+    await api.get(`/api/client/archive/`)
+    .set('Authorization', `Bearer ${t}`)
+    .expect(404)
+})
+
 it('should return 403 if token is expired',async()=>{
     await api.get('/api/client/')
     .set('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmOTViYTVjODZkNTAzNTQ2ZjMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTcyNzk0LCJleHAiOjE3NDQ5Nzk5OTR9.ETdVXmlwxT0Smz9KW4iUtp_c6pboYreDMa5LNEFMfd8`)
@@ -121,11 +133,23 @@ it('should get clients',async()=>{
     .expect('Content-Type', /application\/json/)
 })
 
+it('should return 404 if client not found',async()=>{
+    await api.get(`/api/client/68022c082f41b78e03477c99`)
+    .set('Authorization', `Bearer ${t}`)
+    .expect(404)
+})
+
 it('should delete a client',async()=>{
     await api.delete(`/api/client/${clientId}`)
     .set('Authorization', `Bearer ${t}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
+})
+
+it('should return 404 if client not found',async()=>{
+    await api.delete(`/api/client/68022c082f41b78e03477c99`)
+    .set('Authorization', `Bearer ${t}`)
+    .expect(404)
 })
 
 it('should soft delete the resource by setting deleted to true',async()=>{
@@ -136,6 +160,12 @@ it('should soft delete the resource by setting deleted to true',async()=>{
     
 })
 
+it('should return 404 if client not found',async()=>{
+    await api.delete(`/api/client/archive/${clientIdArchive}`)
+    .set('Authorization', `Bearer ${t}`)
+    .expect(404)
+})
+
 it('should get clients with deleted true',async()=>{
     await api.get(`/api/client/archive/`)
     .set('Authorization', `Bearer ${t}`)
@@ -143,11 +173,18 @@ it('should get clients with deleted true',async()=>{
     .expect('Content-Type', /application\/json/)
 })
 
+
 it('should update the client by setting deleted to false',async()=>{
     await api.patch(`/api/client/restore/${clientIdArchive}`)
     .set('Authorization', `Bearer ${t}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
+})
+
+it('should return 404 if client not found',async()=>{
+    await api.patch(`/api/client/restore/68022c082f41b78e03477c99`)
+    .set('Authorization', `Bearer ${t}`)
+    .expect(404)
 })
 
 it('should put the client',async()=>{
@@ -181,6 +218,23 @@ it('should return 403 if required fields are missing or invalid',async()=>{
     await api.put(`/api/client/${clientIdArchive}`).send(body)
     .set('Authorization', `Bearer ${t}`)
     .expect(403)
+})
+
+it('should return 404 if client not found',async()=>{
+    const body={
+        "name": "ACS1",
+        "cif": "D52921213",
+        "address": {
+          "street": "EDUARDO I",
+          "number": 22,
+          "postal": 28936,
+          "city": "Móstoles",
+          "province": "Madrid"
+        }
+    }
+    await api.put(`/api/client/68022c082f41b78e03477c99`).send(body)
+    .set('Authorization', `Bearer ${t}`)
+    .expect(404)
 })
 
 

@@ -60,7 +60,7 @@ const getOneClientById=async (req,res)=>{
             const id=req.user._id
             const client=await ClientModel.find({"userId":id, "_id":req.params.id})
             if (!client || client.length === 0) {
-                res.status(404).send('No se encontraron clientes para este usuario');
+                res.status(404).send('No se encontraron clientes para este usuario o no existe ese usuario');
             }
             else{
                 res.send(client)
@@ -125,7 +125,7 @@ const modificarClient=async(req,res)=>{
             const id=req.user._id
             req.body={...req.body,userId:id}
             const data=req.body
-            const restored=await ClientModel.findOneAndReplace({"_id":req.params.id},data,{ new: true })
+            const restored=await ClientModel.findOneAndReplace({"userId":id,"_id":req.params.id},data,{ new: true })
             if(!restored){
                 res.status(404).send('Cliente no encontrado')
             }
