@@ -53,7 +53,7 @@ const getOneClientById=async (req,res)=>{
         }
         else{
             const id=req.user._id
-            const client=await ClientModel.find({"userId":id, "_id":req.params.id})
+            const client=await ClientModel.findOne({"userId":id, "_id":req.params.id})
             if (!client || client.length === 0) {
                 res.status(404).send('No se encontraron clientes para este usuario o no existe ese usuario');
             }

@@ -59,7 +59,7 @@ const getOneProjectById=async(req,res)=>{
         }
         else{
             const id=req.user._id
-            const project=await ProjectModel.find({"userId":id, "_id":req.params.id})
+            const project=await ProjectModel.findOne({"userId":id, "_id":req.params.id})
             if (!project || project.length === 0) {
                 res.status(404).send('No se encontraron proyectos para este usuario');
             }

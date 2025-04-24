@@ -226,7 +226,6 @@ const uploadImage = async (req, res,next) => {
     }catch(err) {
         console.log(err)
         res.status(500).send("ERROR_UPLOAD_COMPANY_IMAGE")
-        //handleHttpError(res, "ERROR_UPLOAD_COMPANY_IMAGE")
     }
 }
 
