@@ -88,4 +88,4 @@ const UserModel=new mongoose.Schema(
     }
 )
 UserModel.plugin(mongooseDelete,{overrideMethods:"all"})
-module.exports=mongoose.model("users",UserModel)
+module.exports=mongoose.model("User",UserModel)

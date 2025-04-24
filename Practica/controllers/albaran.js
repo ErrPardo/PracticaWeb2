@@ -23,6 +23,40 @@ const crearAlbaran=async(req,res)=>{
     }
 }
 
+const getAllAlbaranes=async(req,res)=>{
+    try{
+        const id=req.user._id
+        const albaran=await AlbaranModel.find({"userId":id})
+        if(!albaran || albaran.length===0){
+            res.status(404).send("El usuario no tiene albaranes")
+        }
+        else{
+            res.send(albaran)
+        }
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).send("Server internal error")
+    }
 
-module.exports={crearAlbaran}
+}
+
+const getOneAlbaranById=async(req,res)=>{
+    try{
+        const id=req.user._id
+        const albaran=await AlbaranModel.find({"userId":id, "_id":req.params.id}).populate("clientId").populate("userId").populate("projectId")
+        if(!albaran || albaran.length===0){
+            res.status(404).send("El albaran proporcionado no existe")
+        }
+        else{
+            res.send(albaran)
+        }
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).send("Server internal error")
+    }
+}
+
+module.exports={crearAlbaran,getAllAlbaranes,getOneAlbaranById}
 

@@ -5,15 +5,15 @@ const AlbaranModel=new mongoose.Schema(
     {
         userId:{
             type:mongoose.Types.ObjectId,
-            ref:'users'
-        },
-        clientId:{
-            type:mongoose.Types.ObjectId,
-            ref:'clients'
+            ref:'User'
         },
         projectId:{
             type:mongoose.Types.ObjectId,
-            ref:'projects'
+            ref:'Project'
+        },
+        clientId:{
+            type:mongoose.Types.ObjectId,
+            ref:'Client'
         },
         workdate:{
             type:Date,
@@ -68,4 +68,4 @@ const AlbaranModel=new mongoose.Schema(
     }
 )
 AlbaranModel.plugin(mongooseDelete,{overrideMethods:"all"})
-module.exports=mongoose.model("albaran",AlbaranModel)
+module.exports=mongoose.model("Albaran",AlbaranModel)

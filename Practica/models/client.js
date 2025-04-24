@@ -41,4 +41,4 @@ const ClientScheme=new mongoose.Schema(
     }
 )
 ClientScheme.plugin(mongooseDelete,{overrideMethods:"all"})
-module.exports=mongoose.model("clients",ClientScheme)
+module.exports=mongoose.model("Client",ClientScheme)
