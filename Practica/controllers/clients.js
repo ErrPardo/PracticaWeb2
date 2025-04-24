@@ -4,22 +4,17 @@ const ClientModel=require('../models/client')
 
 const crearClient=async(req,res)=>{
     try{
-        req.body=matchedData(req)
-        if(req.body){
-            const id=req.user._id
-            req.body={...req.body,userId:id}
-            const client=await ClientModel.find({"userId":id,"cif":req.body.cif})
-            if(client.length===0){
-                const newClient=await ClientModel.create(req.body)
-                res.send(newClient)
-            }
-            else{
-                res.status(409).send("El cliente ya existe para esta usuario")
-            } 
+        req.body=matchedData(req)    
+        const id=req.user._id
+        req.body={...req.body,userId:id}
+        const client=await ClientModel.find({"userId":id,"cif":req.body.cif})
+        if(client.length===0){
+            const newClient=await ClientModel.create(req.body)
+            res.send(newClient)
         }
         else{
-            res.status(422).send("Problemas con el body")
-        }
+            res.status(409).send("El cliente ya existe para esta usuario")
+        }  
     }
     catch(e){
         console.log(e)
@@ -121,21 +116,16 @@ const restoreClient=async(req,res)=>{
 const modificarClient=async(req,res)=>{
     try{
         req.body=matchedData(req)
-        if(req.body){
-            const id=req.user._id
-            req.body={...req.body,userId:id}
-            const data=req.body
-            const restored=await ClientModel.findOneAndReplace({"userId":id,"_id":req.params.id},data,{ new: true })
-            if(!restored){
-                res.status(404).send('Cliente no encontrado')
-            }
-            else{
-                res.send(restored)
-            }  
+        const id=req.user._id
+        req.body={...req.body,userId:id}
+        const data=req.body
+        const restored=await ClientModel.findOneAndReplace({"userId":id,"_id":req.params.id},data,{ new: true })
+        if(!restored){
+            res.status(404).send('Cliente no encontrado')
         }
         else{
-            res.status(422).send("Problemas con el body")
-        }  
+            res.send(restored)
+        }   
     }
     catch(e){
         console.log(e)

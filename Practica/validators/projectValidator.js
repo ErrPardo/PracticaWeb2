@@ -4,8 +4,8 @@ const validateResults=require("../utils/handleValidator")
 
 const validatorProject=[
     check("address.street").exists().notEmpty(),
-    check("address.number").exists().notEmpty(),
-    check("address.postal").exists().notEmpty().isLength(5),
+    check("address.number").exists().notEmpty().isInt(),
+    check("address.postal").exists().notEmpty().isLength(5).isInt(),
     check("address.city").exists().notEmpty(),
     check("address.province").exists().notEmpty(),
     check("projectCode").exists().notEmpty(),

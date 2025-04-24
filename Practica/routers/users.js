@@ -7,7 +7,7 @@ const { uploadMiddlewareMemory } = require('../utils/handlestorage.js')
 const authMiddleware = require('../middleware/authMiddleware.js')
 
 
-routerUsers=express.Router()
+const routerUsers=express.Router()
 routerUsers.use(express.json())
 
 routerUsers.get('/allUsers',AllUsers)

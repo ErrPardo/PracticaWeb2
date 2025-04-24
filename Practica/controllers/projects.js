@@ -5,27 +5,22 @@ const ClientModel=require('../models/client')
 const crearProject=async(req,res)=>{
     try{
         req.body=matchedData(req)
-        if(req.body){
-            const clientMongo=req.body.clientId
-            if((await ClientModel.find({_id:clientMongo})).length!=0){
-                const id=req.user._id
-                req.body={...req.body,userId:id,clientId:clientMongo}
-                const project=await ProjectModel.find({"userId":id,"clientId":clientMongo,"projectCode":req.body.projectCode})
-                if(project.length===0){
-                    const newProject=await ProjectModel.create(req.body)
-                    res.send(newProject)
-                }
-                else{
-                    res.status(409).send("El proyecto ya existe para esta usuario")
-                } 
+        const clientMongo=req.body.clientId
+        if((await ClientModel.find({_id:clientMongo})).length!=0){
+            const id=req.user._id
+            req.body={...req.body,userId:id}
+            const project=await ProjectModel.find({"userId":id,"clientId":clientMongo,"projectCode":req.body.projectCode})
+            if(project.length===0){
+                const newProject=await ProjectModel.create(req.body)
+                res.send(newProject)
             }
             else{
-                res.status(404).send("El cliente que ha seleccionado no existe")
-            }   
+                res.status(409).send("El proyecto ya existe para esta usuario")
+            } 
         }
         else{
-            res.status(422).send("Problemas con el body")
-        }
+            res.status(404).send("El cliente que ha seleccionado no existe")
+        }   
     }
     catch(e){
         console.log(e)
@@ -127,27 +122,22 @@ const restoreProject=async(req,res)=>{
 const modificarProject=async(req,res)=>{
     try{
         req.body=matchedData(req)
-        if(req.body){
-            const id=req.user._id
-            const clientMongo=req.body.clientId
-            if((await ClientModel.find({_id:clientMongo})).length!=0){
-                req.body={...req.body,userId:id,clientId:clientMongo}
-                const data=req.body
-                const restored=await ProjectModel.findOneAndReplace({"_id":req.params.id},data,{ new: true })
-                if(!restored){
-                    res.status(404).send('Proyecto no encontrado')
-                }
-                else{
-                    res.send(restored)
-                }
+        const id=req.user._id
+        const clientMongo=req.body.clientId
+        if((await ClientModel.find({_id:clientMongo})).length!=0){
+            req.body={...req.body,userId:id,clientId:clientMongo}
+            const data=req.body
+            const restored=await ProjectModel.findOneAndReplace({"_id":req.params.id},data,{ new: true })
+            if(!restored){
+                res.status(404).send('Proyecto no encontrado')
             }
             else{
-                res.status(404).send("El cliente que ha seleccionado no existe")
-            }     
+                res.send(restored)
+            }
         }
         else{
-            res.status(422).send("Problemas con el body")
-        }  
+            res.status(404).send("El cliente que ha seleccionado no existe")
+        }       
     }
     catch(e){
         console.log(e)

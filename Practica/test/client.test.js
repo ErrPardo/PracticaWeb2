@@ -4,12 +4,14 @@ const mongoose = require('mongoose');
 const ClientModel=require('../models/client')
 const UserModel=require('../models/users.js')
 
-
-
 const api = supertest(app);
 var t=null
 var clientId=null
 var clientIdArchive=null
+
+//cambiar los test porque estan mal
+//tienen que ser independiente cada uno de esos
+//hacer todo el proceso con beforeeach y aftereach borrar todos los datos
 
 beforeAll(async () => {
     await new Promise((resolve) => mongoose.connection.once('connected', resolve));
@@ -119,6 +121,7 @@ it('should return 403 if required fields are missing or invalid',async()=>{
 
 
 it('should get clients',async()=>{
+
     await api.get('/api/client/')
     .set('Authorization', `Bearer ${t}`)
     .expect(200)

@@ -4,7 +4,7 @@ const { crearProject, getProjects, getOneProjectById, deleteProject,restoreProje
 const authMiddleware=require('../middleware/authMiddleware')
 const { validatorProject } = require('../validators/projectValidator')
 
-routerP=express.Router()
+const routerP=express.Router()
 routerP.use(express.json())
 
 

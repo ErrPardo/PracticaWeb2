@@ -14,7 +14,6 @@ const verificationMiddleware= async (req,res,next)=>{
             if(tokenData){
                 const user=await UserModel.findById(tokenData._id)
                 if(Number(process.env.INTENTOS_MAX)==user.intentos){
-                    //TODO poner el delete true
                     if(user.deleted!=true){
                         const newUser=await UserModel.findOneAndUpdate({"email":user.email},{user,deleted:true},{ new: true })
                     }

@@ -4,7 +4,7 @@ const {validateClient}=require('../validators/clientValidator')
 const { crearClient,getClients,getOneClientById, deleteClient,restoreClient,modificarClient} = require('../controllers/clients')
 const authMiddleware = require('../middleware/authMiddleware.js')
 
-routerClient=express.Router()
+const routerClient=express.Router()
 routerClient.use(express.json())
 
 routerClient.get('/',authMiddleware,getClients)
