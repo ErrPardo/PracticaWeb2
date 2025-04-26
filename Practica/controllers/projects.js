@@ -33,7 +33,7 @@ const getProjects=async (req,res)=>{
         const id=req.user._id
         const project=await ProjectModel.find({"userId":id})
         if (!project || project.length === 0) {
-            res.status(404).send('No se encontraron clientes para este usuario');
+            res.status(404).send('No se encontraron proyectos para este usuario');
         }
         else{
             res.send(project)

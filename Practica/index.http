@@ -305,7 +305,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZ
 Content-Disposition: form-data; name="image"; filename="signature.png"
 Content-Type: image/png
 
-< ./pdf/signature.png
+< ./signature.png
 --boundary123--
 
 ###

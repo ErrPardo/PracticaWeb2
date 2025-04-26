@@ -8,8 +8,16 @@ const authAlbaran=async(req,res,next)=>{
             res.status(404).send("El albaran proporcionado no existe")
         }
         else{
-            req.albaran=albaran
-            next()
+            if(albaran.sign!="null"){
+                res.status(201).json({
+                    message: 'Albarán creado',
+                    fileName: albaran.pdf,
+                })
+            }
+            else{
+                req.albaran=albaran
+                next()
+            }  
         }
     }
     catch(e){
