@@ -151,7 +151,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/api/client
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZDIwN2M2Zjg3N2Y0ZGZiOGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1NTExOTY1LCJleHAiOjE3NDU1OTgzNjV9.R1IpFWKSJ3bbFSwcnx418bt7ogBlk_Q_bS25yXMrqGU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBkMTA1MDlmZWFjNDU4MTUzZjhlOGUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Njg2NjA4LCJleHAiOjE3NDU3NzMwMDh9.veNsKWc8ZQ_X98eDNNBpiobXTz-4UlQ5XtPZwU7k6o0
 
 {
   "name": "ACS2",
@@ -209,7 +209,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmO
 ###
 POST http://localhost:3000/api/projects/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZDIwN2M2Zjg3N2Y0ZGZiOGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1NTExOTY1LCJleHAiOjE3NDU1OTgzNjV9.R1IpFWKSJ3bbFSwcnx418bt7ogBlk_Q_bS25yXMrqGU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBkMTA1MDlmZWFjNDU4MTUzZjhlOGUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Njg2NjA4LCJleHAiOjE3NDU3NzMwMDh9.veNsKWc8ZQ_X98eDNNBpiobXTz-4UlQ5XtPZwU7k6o0
 
 {
   "name": "Nombre del proyecto",
@@ -222,7 +222,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZ
     "province": "Madrid"
   },
   "code": "Código interno del proyecto",
-  "clientId": "680a663528dc41e25a05b4e5"
+  "clientId": "680d10659feac458153f8e92"
 }
 ###
 
@@ -274,19 +274,19 @@ GET http://localhost:3000/api/pdf
 ###
 POST http://localhost:3000/api/albaran
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZDIwN2M2Zjg3N2Y0ZGZiOGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1NTExOTY1LCJleHAiOjE3NDU1OTgzNjV9.R1IpFWKSJ3bbFSwcnx418bt7ogBlk_Q_bS25yXMrqGU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBkMTA1MDlmZWFjNDU4MTUzZjhlOGUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Njg2NjA4LCJleHAiOjE3NDU3NzMwMDh9.veNsKWc8ZQ_X98eDNNBpiobXTz-4UlQ5XtPZwU7k6o0
 
 {
-  "clientId": "680a663528dc41e25a05b4e5",
-  "projectId": "680a664d28dc41e25a05b4ea",
+  "albaranCode":"Id1",
+  "clientId": "680d10659feac458153f8e92",
+  "projectId": "680d10759feac458153f8e97",
   "description": "Primer Albaran",
   "hours": 8,
-  "format":"hours",
-  "multi":[
+  "format":"materials",
+  "materials":[
     {
-      "name":"Alright",
-      "hours":2,
-      "description":"cosas"
+      "description":"yeah",
+      "quantity":2
     }
   ]
 }
@@ -297,9 +297,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZ
 GET http://localhost:3000/api/albaran/680a67988f160b06850f693f
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZDIwN2M2Zjg3N2Y0ZGZiOGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1NTExOTY1LCJleHAiOjE3NDU1OTgzNjV9.R1IpFWKSJ3bbFSwcnx418bt7ogBlk_Q_bS25yXMrqGU
 ###
-GET http://localhost:3000/api/albaran/pdf/680a67988f160b06850f693f
+GET http://localhost:3000/api/albaran/pdf/680d1d1b56d406d260716e69
 Content-Type: multipart/form-data; boundary=boundary123
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZDIwN2M2Zjg3N2Y0ZGZiOGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1NTExOTY1LCJleHAiOjE3NDU1OTgzNjV9.R1IpFWKSJ3bbFSwcnx418bt7ogBlk_Q_bS25yXMrqGU
+Authorization: Bearer 
 
 --boundary123
 Content-Disposition: form-data; name="image"; filename="signature.png"
@@ -309,7 +309,7 @@ Content-Type: image/png
 --boundary123--
 
 ###
-DELETE http://localhost:3000/api/albaran/680a666e28dc41e25a05b4ef
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZDIwN2M2Zjg3N2Y0ZGZiOGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1NTExOTY1LCJleHAiOjE3NDU1OTgzNjV9.R1IpFWKSJ3bbFSwcnx418bt7ogBlk_Q_bS25yXMrqGU
+DELETE http://localhost:3000/api/albaran/680d1376872630976fd86f11
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBkMTA1MDlmZWFjNDU4MTUzZjhlOGUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Njg2NjA4LCJleHAiOjE3NDU3NzMwMDh9.veNsKWc8ZQ_X98eDNNBpiobXTz-4UlQ5XtPZwU7k6o0
 
 

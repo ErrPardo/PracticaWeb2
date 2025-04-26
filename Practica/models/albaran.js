@@ -3,6 +3,10 @@ const mongooseDelete=require("mongoose-delete")
 
 const AlbaranModel=new mongoose.Schema(
     {
+        albaranCode:{
+            type:String,
+            unique:true
+        },
         userId:{
             type:mongoose.Types.ObjectId,
             ref:'User'

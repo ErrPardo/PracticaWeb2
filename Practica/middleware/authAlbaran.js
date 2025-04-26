@@ -10,7 +10,7 @@ const authAlbaran=async(req,res,next)=>{
         else{
             if(albaran.sign!="null"){
                 res.status(201).json({
-                    message: 'Albarán creado',
+                    message: 'Pdf',
                     fileName: albaran.pdf,
                 })
             }

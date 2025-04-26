@@ -11,8 +11,14 @@ const crearAlbaran=async(req,res)=>{
         if((await ClientModel.find({_id:req.body.clientId}))!=0 && (await ProjectModel.find({_id:req.body.projectId}))!=0){
             const id=req.user._id
             req.body={...req.body,userId:id,pending:true,sign:"null"}
-            const albaran=await AlbaranModel.create(req.body)
-            res.send(albaran)
+            const albaran=await AlbaranModel.find({"userId":id,"clientId":req.body.clientId,"projectId":req.body.projectId,"albaranCode":req.body.albaranCode})
+            if(albaran.length===0){
+                const newAlbaran=await AlbaranModel.create(req.body)
+                res.send(newAlbaran)
+            }
+            else{
+                res.status(409).send("El albaran proporcionado ya existe")
+            }
         }
         else{
             res.status(404).send("No existe el cliente proporcionado o el proyecto")
@@ -105,7 +111,7 @@ const uploadFile=async(req,res)=>{
         await AlbaranModel.findByIdAndUpdate(req.albaran._id, { pdf: ipfsPdf }, { new: true })
         
       
-        res.send("Archivos subido correctamente")
+        res.send(ipfsPdf)
 
     }catch(err) {
         console.log(err)

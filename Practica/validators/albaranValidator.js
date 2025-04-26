@@ -3,6 +3,7 @@ const {check,body}=require("express-validator")
 const validateResults=require("../utils/handleValidator")
 
 const validateAlbaran=[
+    check("albaranCode").exists().notEmpty(),
     check("clientId").exists().notEmpty().isLength(24),
     check("projectId").exists().notEmpty().isLength(24),
     check("description").exists().notEmpty(),
