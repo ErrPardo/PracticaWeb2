@@ -90,6 +90,7 @@ const deleteAlbaran=async(req,res)=>{
 
 const uploadFile=async(req,res)=>{
     try {
+        
         const id = req.params.id
         const signature = req.file
         const pdf=req.pdf

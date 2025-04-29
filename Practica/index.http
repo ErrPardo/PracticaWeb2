@@ -29,7 +29,7 @@ Content-Type: application/json
 
 {
   "email": "nicolaila@gmail.com",
-  "password": "password"
+  "password": "password2"
 }
 
 ###
@@ -151,7 +151,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/api/client
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBkMTA1MDlmZWFjNDU4MTUzZjhlOGUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Njg2NjA4LCJleHAiOjE3NDU3NzMwMDh9.veNsKWc8ZQ_X98eDNNBpiobXTz-4UlQ5XtPZwU7k6o0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODEwOGE2NTA5MDc1Y2RjOTNlMTUxZWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1OTE0NDY5LCJleHAiOjE3NDYwMDA4Njl9.5A87WxB60bF4snZjWzmKe2QuJ9bt7obRxUP0q14LshU
 
 {
   "name": "ACS2",
@@ -209,7 +209,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmO
 ###
 POST http://localhost:3000/api/projects/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBkMTA1MDlmZWFjNDU4MTUzZjhlOGUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Njg2NjA4LCJleHAiOjE3NDU3NzMwMDh9.veNsKWc8ZQ_X98eDNNBpiobXTz-4UlQ5XtPZwU7k6o0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODEwOGE2NTA5MDc1Y2RjOTNlMTUxZWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1OTE0NDY5LCJleHAiOjE3NDYwMDA4Njl9.5A87WxB60bF4snZjWzmKe2QuJ9bt7obRxUP0q14LshU
 
 {
   "name": "Nombre del proyecto",
@@ -222,7 +222,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBkMTA1M
     "province": "Madrid"
   },
   "code": "Código interno del proyecto",
-  "clientId": "680d10659feac458153f8e92"
+  "clientId": "68108a7509075cdc93e151ef"
 }
 ###
 
@@ -274,12 +274,12 @@ GET http://localhost:3000/api/pdf
 ###
 POST http://localhost:3000/api/albaran
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBkMTA1MDlmZWFjNDU4MTUzZjhlOGUiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1Njg2NjA4LCJleHAiOjE3NDU3NzMwMDh9.veNsKWc8ZQ_X98eDNNBpiobXTz-4UlQ5XtPZwU7k6o0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODEwOGE2NTA5MDc1Y2RjOTNlMTUxZWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1OTE0NDY5LCJleHAiOjE3NDYwMDA4Njl9.5A87WxB60bF4snZjWzmKe2QuJ9bt7obRxUP0q14LshU
 
 {
   "albaranCode":"Id1",
-  "clientId": "680d10659feac458153f8e92",
-  "projectId": "680d10759feac458153f8e97",
+  "clientId": "68108a7509075cdc93e151ef",
+  "projectId": "68108a9609075cdc93e151f4",
   "description": "Primer Albaran",
   "hours": 8,
   "format":"materials",
@@ -297,9 +297,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZ
 GET http://localhost:3000/api/albaran/680a67988f160b06850f693f
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBhNjYxZDIwN2M2Zjg3N2Y0ZGZiOGMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1NTExOTY1LCJleHAiOjE3NDU1OTgzNjV9.R1IpFWKSJ3bbFSwcnx418bt7ogBlk_Q_bS25yXMrqGU
 ###
-GET http://localhost:3000/api/albaran/pdf/680d1d1b56d406d260716e69
+GET http://localhost:3000/api/albaran/pdf/68108ac209075cdc93e151fa
 Content-Type: multipart/form-data; boundary=boundary123
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODEwOGE2NTA5MDc1Y2RjOTNlMTUxZWIiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ1OTE0NDY5LCJleHAiOjE3NDYwMDA4Njl9.5A87WxB60bF4snZjWzmKe2QuJ9bt7obRxUP0q14LshU
 
 --boundary123
 Content-Disposition: form-data; name="image"; filename="signature.png"

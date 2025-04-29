@@ -1,3 +1,5 @@
+const albaranController=require('../controllers/albaran.js')
+const spy = jest.spyOn(albaranController, 'uploadFile')
 const supertest = require('supertest')
 const {app, server} = require('../index.js')
 const mongoose = require('mongoose');
@@ -5,6 +7,8 @@ const ClientModel=require('../models/client')
 const UserModel=require('../models/users.js')
 const ProjectModel=require('../models/projects.js')
 const AlbaranModel=require('../models/albaran.js')
+
+
 
 const api = supertest(app);
 var t=null
@@ -314,6 +318,9 @@ describe('Test with project,client',()=>{
             .set('Authorization', `Bearer ${t}`)
             .attach('image','./signature.png')
             .expect(200)
+
+            expect(spy).toHaveBeenCalled();
+            spy.mockRestore();
         })
         it('should return 404 if deliverynote not found',async()=>{
             await api.get(`/api/albaran/pdf/68022c082f41b78e03477c99`)
@@ -438,6 +445,9 @@ describe('signed',()=>{
             .set('Authorization', `Bearer ${t}`)
             .attach('image','./signature.png')
             .expect(201)
+            
+            expect(spy).not.toHaveBeenCalled();
+            spy.mockRestore();
         })
 
     })

@@ -37,32 +37,262 @@ routerUsers.get('/',authMiddleware,getUser)
 */
 routerUsers.post('/register',validatorRegister,crearUsuario)
 
+/**
+* @openapi
+* /api/users/validation:
+*  put:
+*      tags:
+*      - User
+*      summary: "Verify user account"
+*      description: Activates user after code validation
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                      $ref: "#/components/schemas/verification"
+*      responses:
+*          '200':
+*              description: User successfully verified
+*          '500':
+*              description: Internal server error
+*      security:
+*          - bearerAuth: []
+*/
 routerUsers.put('/validation',validatorVerification,verificationMiddleware,modificarUsuarioRegister)
 
+/**
+* @openapi
+* /api/users/login:
+*  post:
+*      tags:
+*      - User
+*      summary: "Login user"
+*      description: Login with email and password
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                      $ref: "#/components/schemas/login"
+*      responses:
+*          '200':
+*              description: Returns user data and JWT token
+*          '403':
+*              description: Invalid credentials
+*/
 routerUsers.post('/login',validatorLogin,loginUsuario)
 
+/**
+* @openapi
+* /api/users/register:
+*  put:
+*      tags:
+*      - User
+*      summary: "Update user registration data"
+*      description: Updates user data like address or company after registration
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                      $ref: "#/components/schemas/userUpdate"
+*      responses:
+*          '200':
+*              description: User updated successfully
+*          '403':
+*              description: Invalid update or missing fields
+*      security:
+*          - bearerAuth: []
+*/
 routerUsers.put('/register',validatorRegisterPut,authMiddleware,modificarUsuario)
 
+/**
+* @openapi
+* /api/users/company:
+*  patch:
+*      tags:
+*      - User
+*      summary: "Add or update company info"
+*      description: Only for users marked as autonomo
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                      $ref: "#/components/schemas/company"
+*      responses:
+*          '200':
+*              description: Company data updated
+*          '403':
+*              description: Missing required fields
+*      security:
+*          - bearerAuth: []
+*/
 routerUsers.patch('/company',validatorCompany,authMiddleware,modificarUsuario)
 
-routerUsers.delete('/')
-
+/**
+* @openapi
+* /api/users/logo:
+*  patch:
+*      tags:
+*      - User
+*      summary: "Upload profile/company logo"
+*      description: Uploads image to IPFS and links it to the user
+*      requestBody:
+*          content:
+*              multipart/form-data:
+*                  schema:
+*                      type: object
+*                      properties:
+*                          image:
+*                              type: string
+*                              format: binary
+*      responses:
+*          '200':
+*              description: Image uploaded and user updated
+*          '400':
+*              description: File too large or invalid
+*      security:
+*          - bearerAuth: []
+*/
 routerUsers.patch('/logo',uploadMiddlewareMemory.single("image"),(err,req,res,next)=>{
     if(err.code=="LIMIT_FILE_SIZE"){
         res.status(400).send("El archivo es demasiado grande")
     }
 },uploadImage,validatorLogo,authMiddleware,modificarUsuario)
 
+/**
+* @openapi
+* /api/users/:
+*  delete:
+*      tags:
+*      - User
+*      summary: "Delete user"
+*      description: Deletes a user account (soft delete by default, hard if `soft=false`)
+*      parameters:
+*          - in: query
+*            name: soft
+*            required: false
+*            schema:
+*              type: string
+*              enum: [true, false]
+*            description: "Use 'false' for hard delete. Default is soft delete."
+*      responses:
+*          '200':
+*              description: User deleted successfully
+*          '500':
+*              description: Server error
+*      security:
+*          - bearerAuth: []
+*/
 routerUsers.delete('/',authMiddleware,deleteUser)
 
+/**
+* @openapi
+* /api/users/validation:
+*  post:
+*      tags:
+*      - User
+*      summary: "Recover account"
+*      description: Initiates account recovery by sending a token
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                      type: object
+*                      properties:
+*                          email:
+*                              type: string
+*      responses:
+*          '200':
+*              description: Recovery token sent
+*          '403':
+*              description: User not found
+*/
 routerUsers.post('/validation',recoverPassword)
 
+/**
+* @openapi
+* /api/users/verify:
+*  get:
+*      tags:
+*      - User
+*      summary: "Check if user is verified"
+*      description: Checks if user is verified and logs the code
+*      parameters:
+*          - in: query
+*            name: email
+*            required: true
+*            schema:
+*              type: string
+*      responses:
+*          '200':
+*              description: User verified, code sent
+*          '500':
+*              description: User not verified or error
+*/
 routerUsers.get('/verify',comprobarUsuarioVerificado)
 
+/**
+* @openapi
+* /api/users/cambiarPassword:
+*  patch:
+*      tags:
+*      - User
+*      summary: "Change password"
+*      description: Change user password by providing email and new password
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                      $ref: "#/components/schemas/login"
+*      responses:
+*          '200':
+*              description: Password updated
+*          '403':
+*              description: Body validation error
+*/
 routerUsers.patch('/cambiarPassword',validatorLogin,cambiarPassword)
 
+/**
+* @openapi
+* /api/users/address:
+*  patch:
+*      tags:
+*      - User
+*      summary: "Update address"
+*      description: Updates user's address information
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                      $ref: "#/components/schemas/address"
+*      responses:
+*          '200':
+*              description: Address updated
+*          '403':
+*              description: Invalid address info
+*      security:
+*          - bearerAuth: []
+*/
 routerUsers.patch('/address',addressValidator,authMiddleware,modificarUsuario)
 
+/**
+* @openapi
+* /api/users/invite:
+*  post:
+*      tags:
+*      - User
+*      summary: "Invite a user"
+*      description: Invite another user to the platform
+*      requestBody:
+*          content:
+*              application/json:
+*                  schema:
+*                      $ref: "#/components/schemas/user"
+*      responses:
+*          '200':
+*              description: User invited successfully
+*          '409':
+*              description: User already exists
+*/
 routerUsers.post('/invite',inviteValidator,crearUsuario)
 
 module.exports=routerUsers

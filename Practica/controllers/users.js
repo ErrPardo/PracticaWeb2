@@ -4,7 +4,8 @@ const StorageModel=require('../models/storage.js')
 const { encrypt,compare } = require('../utils/handlePassword.js')
 const { tokenSign,verifyToken } = require('../utils/handleToken.js')
 const uploadToPinata=require('../utils/handleUploadIPFS.js')
-const crypto = require('crypto');
+const crypto = require('crypto')
+const { sendEmail } = require('../utils/handleEmail')
 
 //TODO cifrar constraseña para cuando se envie
 //añadir al usuario los numeritos 
@@ -25,7 +26,12 @@ const AllUsers=async(req,res)=>{
 const getUser=async(req,res)=>{
     try{   
         const user=await UserModel.findById(req.user._id).populate('logoId')
-        res.send(user)  
+        if (!user || user.length === 0) {
+            res.status(404).send('No se encontro el usuario');
+        }
+        else{
+            res.send(user)
+        } 
     }
     catch(e){
         console.log(e)
@@ -35,73 +41,101 @@ const getUser=async(req,res)=>{
 const comprobarUsuarioVerificado=async(req,res)=>{
     try{
         const user=await UserModel.findOne({"email":req.body.email})
-        if(user.estado==true){
-            console.log(user.codigoAleatorio)
-            res.send("Codigo enviado")
+        if (!user || user.length === 0) {
+            res.status(404).send('No se encontro el usuario');
         }
         else{
-            res.status(500).send("El usuario no esta verificado")
-        }
+            if(user.estado==true){
+                const email={
+                    "subject": "Codigo verificacion",
+                    "text": user.codigoAleatorio.toString(),
+                    "to": "eduardoyc04@gmail.com",
+                    "from": "eduardoyc04@gmail.com"
+                }
+                //const result=await sendEmail(email)
+                res.send(user.codigoAleatorio.toString())
+            }
+            else{
+                res.status(401).send("El usuario no esta verificado")
+            }
+        }  
     }
     catch(e){
-        res.status(500).send(e)
+        console.log(e)
+        res.status(500).send("Server internal error")
     }
 
 }
 const crearUsuario=async (req,res)=>{
     try{
         req=matchedData(req)
-        if(req){
-            const password=await encrypt(req.password)
-            codigoAleatorio=crypto.randomInt(100000, 1000000)
-            //console.log(codigoAleatorio)
-            intentos=0
-            const body={...req,password,intentos}
-            if(body.company){
-                const userCompany=await UserModel.findOne({"company":body.company})
-                if(userCompany!=null){
-                    const result=await UserModel.create(body)
-                    if(result){
-                        result.set('password', undefined, { strict: false })
-                        const data={
-                            token:await tokenSign(result),
-                            user:result
-                        }
-                        res.send(data)
-                    }
-                    else{
-                        res.status(409).send("El usuario ya existe")
-                    }
-                }
-                else{
-                    res.status(402).send("No existe la compañia introducida")
-                } 
-            }
-            else{
+        
+        const password=await encrypt(req.password)
+        codigoAleatorio=crypto.randomInt(100000, 1000000)
+        //console.log(codigoAleatorio)
+        const email={
+            "subject": "Codigo verificacion",
+            "text": codigoAleatorio.toString(),
+            "to": "eduardoyc04@gmail.com",
+            "from": "eduardoyc04@gmail.com"
+        }
+        //await sendEmail(email)
+
+        intentos=0
+        const body={...req,password,codigoAleatorio,intentos}
+        if(body.company){
+            const userCompany=await UserModel.findOne({"company":body.company})
+            if(userCompany!=null){
                 const result=await UserModel.create(body)
                 if(result){
                     result.set('password', undefined, { strict: false })
                     const data={
                         token:await tokenSign(result),
-                        user:result
+                        user:{
+                            email:result.email,
+                            password:result.password,
+                            intentos:result.intentos,
+                            estado:result.estado,
+                            rol:result.role
+                        }
                     }
                     res.send(data)
                 }
                 else{
                     res.status(409).send("El usuario ya existe")
                 }
-            }    
+            }
+            else{
+                res.status(404).send("No existe la compañia introducida")
+            } 
         }
         else{
-            res.status(400).send("Problemas con el body")
-        } 
+            const result=await UserModel.create(body)
+            if(result){
+                result.set('password', undefined, { strict: false })
+                const data={
+                    token:await tokenSign(result),
+                    user:{
+                        email:result.email,
+                        password:result.password,
+                        intentos:result.intentos,
+                        estado:result.estado,
+                        rol:result.role
+                    }
+                }
+                res.send(data)
+            }
+            else{
+                res.status(409).send("El usuario ya existe")
+            }
+        }       
     }
     catch(e){
         if(e.code===11000){
             res.status(409).send("duplicate key")
         }
         else{
-            res.status(500).send(e)
+            res.status(500).send("Server internal error")
         }
     }
 }
@@ -112,100 +146,101 @@ const modificarUsuarioRegister=async (req,res)=>{
         const email=req.user.email
         const data={...req.user.toObject(),estado}
         const newUser=await UserModel.findOneAndReplace({email},data,{returnDocument:'after'}) 
-        res.send(newUser)  
+        if (!user || user.length === 0) {
+            res.status(404).send('No se encontro el usuario');
+        }
+        else{
+            res.send(newUser)
+        }   
     }
     catch(e){
-        res.status(500).send(e)
+        res.status(500).send("Server internal error")
     }
 }
 
 const loginUsuario=async (req,res)=>{
     try{
         req=matchedData(req)
-        if(!req){
-            res.status(409).send("error con el body")
+    
+        const user=await UserModel.findOne({email:req.email}).select("password name role email")
+        if (!user || user.length === 0) {
+            res.status(404).send('No se encontro el usuario');
         }
         else{
-            const user=await UserModel.findOne({email:req.email}).select("password name role email")
-            if(!user){
-                res.status(403).send("No se ha encontrado el usuario")
+            const hashPassword=user.password
+            const check=await compare(req.password,hashPassword)
+            if(check===false){
+                res.status(403).send("Error en la comprobacion de la contraseña")
             }
             else{
-                const hashPassword=user.password
-                const check=compare(req.password,hashPassword)
-                if(!check){
-                    res.satus(403).send("Error en la comprobacion de la contraseña")
+                const data = {
+                    token: await tokenSign(user),
+                    user: user
                 }
-                else{
-                    const data = {
-                        token: await tokenSign(user),
-                        user: user
-                    }
-                    res.send(data)
-                }
+                res.send(data)
             }
-        }
+        } 
     }
     catch(e){
-        res.status(500).send(e)
+        console.log(e)
+        res.status(500).send("Server internal error")
     }
 }
 
 const modificarUsuario=async (req,res)=>{
-    
+    try{
         if(!req.headers.authorization){
             res.status(401).send("No hay cabecera/token en la peticion")
         }
         else{
             req.body=matchedData(req)         
-            if(req.body){
-                var data={}
-                const user=await UserModel.findById(req.user._id)
-                if(user.autonomo==true && req.body.company){
-                    if(user.address && user.nif && user.name){
-                        const company={
-                            "name":user.name,
-                            "cif":user.nif,
-                            "street": user.address.street,
-                            "number": user.address.number,
-                            "postal": user.address.postal,
-                            "city": user.address.city,
-                            "province": user.address.province
-                        }
-                        data={...req.body,company} 
+            
+            var data={}
+            const user=await UserModel.findById(req.user._id)
+            if(user.autonomo==true && req.body.company){
+                if(user.address && user.nif && user.name){
+                    const company={
+                        "name":user.name,
+                        "cif":user.nif,
+                        "street": user.address.street,
+                        "number": user.address.number,
+                        "postal": user.address.postal,
+                        "city": user.address.city,
+                        "province": user.address.province
                     }
-                    else if(req.body.address){
-                        data={...req.body}
-                    }
-                    else{
-                        res.status(403).send("Faltan alguno de estos datos address,nif,name en el usuario")
-                    }             
+                    data={...req.body,company} 
                 }
-                else{
+                else if(req.body.address){
                     data={...req.body}
                 }
-                const resData=await UserModel.findOneAndUpdate({ _id: user._id },data,{returnDocument:'after'})
-                res.status(200).send(resData)  
+                else{
+                    res.status(403).send("Faltan alguno de estos datos address,nif,name en el usuario")
+                }             
             }
             else{
-                res.status(403).send("Problemas con el body")
+                data={...req.body}
             }
+            const resData=await UserModel.findOneAndUpdate({ _id: user._id },data,{returnDocument:'after'})
+            res.status(200).send(resData)   
         }
-    
+    }
+    catch(e){
+        res.status(500).send("Server internal error")
+    }  
 }
 
 const cambiarPassword=async(req,res)=>{
     try{
         req=matchedData(req)
-        if(req){
-            const password=await encrypt(req.password)
-            const data={...req,password}
-            const user=await UserModel.findOneAndUpdate({email:req.email},data,{returnDocument:'after'})
-            res.send(user)
+        const password=await encrypt(req.password)
+        const data={...req,password}
+        const user=await UserModel.findOneAndUpdate({email:req.email},data,{returnDocument:'after'})
+        if (!user || user.length === 0) {
+            res.status(404).send('No se encontro el usuario');
         }
         else{
-            res.satus(403).send("Problemas con el body")
-        }
+            res.send(user)
+        } 
     }
     catch(e){
         res.status(500).send(e)
@@ -234,18 +269,27 @@ const deleteUser=async(req,res)=>{
         const user=req.user
         const { soft } = req.query
         if(soft=="false"){
-            const data = await UserModel.findOneAndDelete({"email": user.email})
-            res.send(data)
+            const user = await UserModel.findOneAndDelete({"email": user.email})
+            if (!user || user.length === 0) {
+                res.status(404).send('No se encontro el usuario');
+            }
+            else{
+                res.send(user)
+            } 
         }
         else{
-            const newUser=await UserModel.findOneAndUpdate({"email":user.email},{user,deleted:true},{ new: true })
-            res.send(newUser)
-        }
-        
+            const user=await UserModel.findOneAndUpdate({"email":user.email},{user,deleted:true},{ new: true })
+            if (!user || user.length === 0) {
+                res.status(404).send('No se encontro el usuario');
+            }
+            else{
+                res.send(user)
+            } 
+        }    
     }
     catch(e){
         console.log(e)
-        res.status(500).send(e)
+        res.status(500).send("Server internal error")
     }
 }
 
@@ -253,8 +297,8 @@ const recoverPassword=async(req,res)=>{
     try{  
         console.log(req.body)     
         const user=await UserModel.findOne({email:req.body.email}).select("estado role email")      
-        if(!user){
-            res.status(403).send("No se ha encontrado el usuario")
+        if (!user || user.length === 0) {
+            res.status(404).send('No se encontro el usuario');
         }
         else{
             const data = {
@@ -265,7 +309,7 @@ const recoverPassword=async(req,res)=>{
         }
     }
     catch(e){
-        res.status(500).send(e)
+        res.status(500).send("Server internal error")
     }
 }
 
