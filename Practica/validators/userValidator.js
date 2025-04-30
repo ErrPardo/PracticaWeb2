@@ -13,7 +13,7 @@ const validatorRegister=[
 ]
 
 const validatorVerification=[
-    check("code").exists().notEmpty().isLength(6),
+    check("code").exists().notEmpty().isLength(6).isInt(),
     (req,res,next)=>{
         return validateResults(req,res,next)
     }
@@ -39,7 +39,15 @@ const validatorRegisterPut=[
 ]
 
 const validatorLogo=[
-    check("logoId").exists().notEmpty(),
+    check("email").exists().notEmpty().isEmail(),
+    (req,res,next)=>{
+        return validateResults(req,res,next)
+    }
+]
+
+const validatorRecover=[
+    check("email").exists().notEmpty(),
+    check("code").exists().notEmpty(),
     (req,res,next)=>{
         return validateResults(req,res,next)
     }
@@ -88,4 +96,4 @@ const inviteValidator=[
 
 ]
 
-module.exports={validatorRegister,validatorVerification,validatorLogin,validatorRegisterPut,validatorCompany,validatorLogo,addressValidator,inviteValidator}
+module.exports={validatorRegister,validatorVerification,validatorLogin,validatorRegisterPut,validatorCompany,validatorLogo,addressValidator,inviteValidator,validatorRecover}

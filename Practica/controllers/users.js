@@ -2,8 +2,8 @@ const { matchedData } = require('express-validator')
 const UserModel=require('../models/users.js')
 const StorageModel=require('../models/storage.js')
 const { encrypt,compare } = require('../utils/handlePassword.js')
-const { tokenSign,verifyToken } = require('../utils/handleToken.js')
-const uploadToPinata=require('../utils/handleUploadIPFS.js')
+const { tokenSign } = require('../utils/handleToken.js')
+const {uploadToPinata}=require('../utils/handleUploadIPFS.js')
 const crypto = require('crypto')
 const { sendEmail } = require('../utils/handleEmail')
 
@@ -52,7 +52,7 @@ const comprobarUsuarioVerificado=async(req,res)=>{
                     "to": "eduardoyc04@gmail.com",
                     "from": "eduardoyc04@gmail.com"
                 }
-                //const result=await sendEmail(email)
+                await sendEmail(email)
                 res.send(user.codigoAleatorio.toString())
             }
             else{
@@ -72,14 +72,13 @@ const crearUsuario=async (req,res)=>{
         
         const password=await encrypt(req.password)
         codigoAleatorio=crypto.randomInt(100000, 1000000)
-        //console.log(codigoAleatorio)
         const email={
             "subject": "Codigo verificacion",
             "text": codigoAleatorio.toString(),
             "to": "eduardoyc04@gmail.com",
             "from": "eduardoyc04@gmail.com"
         }
-        //await sendEmail(email)
+        await sendEmail(email)
 
         intentos=0
         const body={...req,password,codigoAleatorio,intentos}
@@ -92,11 +91,11 @@ const crearUsuario=async (req,res)=>{
                     const data={
                         token:await tokenSign(result),
                         user:{
-                            email:result.email,
                             password:result.password,
+                            role:result.role,
                             intentos:result.intentos,
                             estado:result.estado,
-                            rol:result.role
+                            deleted:result.deleted,
                         }
                     }
                     res.send(data)
@@ -116,11 +115,11 @@ const crearUsuario=async (req,res)=>{
                 const data={
                     token:await tokenSign(result),
                     user:{
-                        email:result.email,
                         password:result.password,
+                        role:result.role,
                         intentos:result.intentos,
                         estado:result.estado,
-                        rol:result.role
+                        deleted:result.deleted,
                     }
                 }
                 res.send(data)
@@ -145,15 +144,16 @@ const modificarUsuarioRegister=async (req,res)=>{
         const estado=true
         const email=req.user.email
         const data={...req.user.toObject(),estado}
-        const newUser=await UserModel.findOneAndReplace({email},data,{returnDocument:'after'}) 
+        const user=await UserModel.findOneAndReplace({email},data,{returnDocument:'after'}) 
         if (!user || user.length === 0) {
             res.status(404).send('No se encontro el usuario');
         }
         else{
-            res.send(newUser)
+            res.send(user)
         }   
     }
     catch(e){
+        console.log(e)
         res.status(500).send("Server internal error")
     }
 }
@@ -266,10 +266,10 @@ const uploadImage = async (req, res,next) => {
 
 const deleteUser=async(req,res)=>{
     try{
-        const user=req.user
+        const Ruser=req.user
         const { soft } = req.query
         if(soft=="false"){
-            const user = await UserModel.findOneAndDelete({"email": user.email})
+            const user = await UserModel.findOneAndDelete({"email": Ruser.email})
             if (!user || user.length === 0) {
                 res.status(404).send('No se encontro el usuario');
             }
@@ -278,7 +278,7 @@ const deleteUser=async(req,res)=>{
             } 
         }
         else{
-            const user=await UserModel.findOneAndUpdate({"email":user.email},{user,deleted:true},{ new: true })
+            const user=await UserModel.findOneAndUpdate({"email":Ruser.email},{Ruser,deleted:true},{ new: true })
             if (!user || user.length === 0) {
                 res.status(404).send('No se encontro el usuario');
             }
@@ -295,7 +295,7 @@ const deleteUser=async(req,res)=>{
 
 const recoverPassword=async(req,res)=>{
     try{  
-        console.log(req.body)     
+        req.body=matchedData(req)    
         const user=await UserModel.findOne({email:req.body.email}).select("estado role email")      
         if (!user || user.length === 0) {
             res.status(404).send('No se encontro el usuario');
@@ -309,6 +309,7 @@ const recoverPassword=async(req,res)=>{
         }
     }
     catch(e){
+        console.log(e)
         res.status(500).send("Server internal error")
     }
 }

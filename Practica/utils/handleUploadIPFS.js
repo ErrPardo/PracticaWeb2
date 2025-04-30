@@ -32,4 +32,4 @@ const uploadToPinata = async (fileBuffer, fileName) => {
     }
 };
 
-   module.exports=uploadToPinata
+   module.exports={uploadToPinata}

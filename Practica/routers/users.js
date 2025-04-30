@@ -1,7 +1,7 @@
 const express=require('express')
 
 const {crearUsuario,modificarUsuarioRegister,loginUsuario,modificarUsuario, getUser, uploadImage,deleteUser,recoverPassword, comprobarUsuarioVerificado,cambiarPassword, AllUsers}=require('../controllers/users.js')
-const {validatorRegister,validatorVerification, validatorLogin,validatorRegisterPut, validatorCompany, validatorLogo, addressValidator,inviteValidator}=require("../validators/userValidator.js")
+const {validatorRegister,validatorVerification, validatorLogin,validatorRegisterPut, validatorCompany, validatorLogo, addressValidator,inviteValidator, validatorRecover}=require("../validators/userValidator.js")
 const verificationMiddleware = require('../middleware/verificationMiddleware.js')
 const { uploadMiddlewareMemory } = require('../utils/handlestorage.js')
 const authMiddleware = require('../middleware/authMiddleware.js')
@@ -156,7 +156,7 @@ routerUsers.patch('/logo',uploadMiddlewareMemory.single("image"),(err,req,res,ne
     if(err.code=="LIMIT_FILE_SIZE"){
         res.status(400).send("El archivo es demasiado grande")
     }
-},uploadImage,validatorLogo,authMiddleware,modificarUsuario)
+},uploadImage,authMiddleware,modificarUsuario)
 
 /**
 * @openapi
@@ -206,7 +206,7 @@ routerUsers.delete('/',authMiddleware,deleteUser)
 *          '403':
 *              description: User not found
 */
-routerUsers.post('/validation',recoverPassword)
+routerUsers.post('/validation',validatorRecover,recoverPassword)
 
 /**
 * @openapi
