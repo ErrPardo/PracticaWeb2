@@ -3,6 +3,7 @@ const {app, server} = require('../index.js')
 const mongoose = require('mongoose');
 const ClientModel=require('../models/client')
 const UserModel=require('../models/users.js')
+const { tokenSign } = require('../utils/handleToken.js')
 
 const api = supertest(app);
 var t=null
@@ -18,11 +19,18 @@ beforeAll(async () => {
 
 describe('Test without client',()=>{
     beforeEach(async()=>{
-        const result=await api.post('/api/users/register').send({
+        const user={
             "email": "nicolaila@gmail.com",
-            "password": "password"
-        })
-        t=result.body.token
+            "password": "password",
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": false,
+            "deleted": false
+        }
+        const result=await UserModel.create(user)
+        result.set('password', undefined, { strict: false })
+        t=await tokenSign(result)
         
     })
     afterEach(async()=>{
@@ -39,11 +47,18 @@ describe('Test without client',()=>{
 
 describe('Test with created client',()=>{
     beforeEach(async()=>{
-        const result=await api.post('/api/users/register').send({
+        const user={
             "email": "nicolaila@gmail.com",
-            "password": "password"
-        })
-        t=result.body.token
+            "password": "password",
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": false,
+            "deleted": false
+        }
+        const result=await UserModel.create(user)
+        result.set('password', undefined, { strict: false })
+        t=await tokenSign(result)
         const client={
             "name": "ACS",
             "cif": "D52921211",
@@ -53,11 +68,12 @@ describe('Test with created client',()=>{
               "postal": 28936,
               "city": "Móstoles",
               "province": "Madrid"
-            }
+            },
+            "deleted": false,
+            "userId":result._id
         }
-        const clientRes=await api.post('/api/client').send(client)
-        .set('Authorization', `Bearer ${t}`)
-        clientId=clientRes.body._id
+        const clientRes=await ClientModel.create(client)
+        clientId=clientRes._id
         
     })
     afterEach(async()=>{

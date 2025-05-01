@@ -99,7 +99,14 @@ describe('gets',()=>{
 })
 describe('posts',()=>{
     beforeEach(async()=>{
-        const company={
+        const user={
+            "email": "oscarinin@gmail.com",
+            "password": "$2b$10$4e0QaIIMyeghzuPkfeQZa.WMPlOUUYTkYy2tbdIODw5v1Yn5/bKnS",
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": true,
+            "deleted": false,
             "company": {
                 "name": "Servitop, SL.",
                 "cif": "BXXXXXXXX",
@@ -110,19 +117,8 @@ describe('posts',()=>{
                 "province": "Madrid"
             }
         }
-        const user={
-            "email": "oscarinin@gmail.com",
-            "password": "$2b$10$4e0QaIIMyeghzuPkfeQZa.WMPlOUUYTkYy2tbdIODw5v1Yn5/bKnS",
-            "role": ["user"],
-            "codigoAleatorio": 684691,
-            "intentos": 0,
-            "estado": true,
-            "deleted": false
-        }
         const result=await UserModel.create(user)
         t=await tokenSign(result)
-        await api.patch('/api/users/company').send(company)
-        .set('Authorization', `Bearer ${t}`)
         
     })
     afterEach(async()=>{
@@ -514,11 +510,18 @@ describe('patchs',()=>{
 })
 describe('deletes',()=>{
     beforeEach(async()=>{
-        const result=await api.post('/api/users/register').send({
-            "email": "oscarinin@gmail.com",
+        const user={
+            "email": "nicolaila@gmail.com",
             "password": "password",
-        })
-        t=result.body.token
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": false,
+            "deleted": false
+        }
+        const result=await UserModel.create(user)
+        result.set('password', undefined, { strict: false })
+        t=await tokenSign(result) 
         
     })
     afterEach(async()=>{

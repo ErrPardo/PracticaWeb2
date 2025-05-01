@@ -1,5 +1,7 @@
-const albaranController=require('../controllers/albaran.js')
-const spy = jest.spyOn(albaranController, 'uploadFile')
+const uploadToPinata=require('../utils/handleUploadIPFS.js')
+const spy = jest.spyOn(uploadToPinata, 'uploadToPinata').mockImplementation(()=>{
+    return "ok"
+})
 const supertest = require('supertest')
 const {app, server} = require('../index.js')
 const mongoose = require('mongoose');
@@ -8,7 +10,7 @@ const UserModel=require('../models/users.js')
 const ProjectModel=require('../models/projects.js')
 const AlbaranModel=require('../models/albaran.js')
 
-
+const { tokenSign } = require('../utils/handleToken.js')
 
 const api = supertest(app);
 var t=null
@@ -22,11 +24,18 @@ beforeAll(async () => {
 
 describe('Test without project,client',()=>{
     beforeEach(async()=>{
-        const result=await api.post('/api/users/register').send({
+        const user={
             "email": "nicolaila@gmail.com",
-            "password": "password"
-        })
-        t=result.body.token  
+            "password": "password",
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": false,
+            "deleted": false
+        }
+        const result=await UserModel.create(user)
+        result.set('password', undefined, { strict: false })
+        t=await tokenSign(result) 
     })
     afterEach(async()=>{
         await ClientModel.deleteMany({})
@@ -43,25 +52,33 @@ describe('Test without project,client',()=>{
 
 describe('Test with project,client',()=>{
     beforeEach(async()=>{
-        const result=await api.post('/api/users/register').send({
+        const user={
             "email": "nicolaila@gmail.com",
-            "password": "password"
-        })
-        t=result.body.token
+            "password": "password",
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": false,
+            "deleted": false
+        }
+        const result=await UserModel.create(user)
+        result.set('password', undefined, { strict: false })
+        t=await tokenSign(result)
         const client={
             "name": "ACS",
             "cif": "D52921211",
             "address": {
-              "street": "Carlos V",
-              "number": 22,
-              "postal": 28936,
-              "city": "Móstoles",
-              "province": "Madrid"
-            }
+                "street": "Carlos V",
+                "number": 22,
+                "postal": 28936,
+                "city": "Móstoles",
+                "province": "Madrid"
+            },
+            "deleted": false,
+            "userId":result._id
         }
-        const clientRes=await api.post('/api/client').send(client)
-        .set('Authorization', `Bearer ${t}`)
-        clientId=clientRes.body._id
+        const clientRes=await ClientModel.create(client)
+        clientId=clientRes._id
         const project={
             "name": "Nombre del proyecto",
             "projectCode": "Id1",
@@ -73,29 +90,35 @@ describe('Test with project,client',()=>{
                 "province": "Madrid"
             },
             "code": "Código interno del proyecto",
-            "clientId": clientId
+            "clientId": clientId,
+            "userId":result._id,
+            "deleted":false
         }
-        const projectRes=await api.post('/api/projects').send(project)
-        .set('Authorization', `Bearer ${t}`)
-        projectId=projectRes.body._id
+        const projectRes=await ProjectModel.create(project)
+        projectId=projectRes._id
         const albaran={
             "albaranCode":"Id1",
+            "userId":result._id,
             "clientId": clientId,
             "projectId": projectId,
             "description": "Primer Albaran",
             "hours": 8,
             "format":"hours",
+            "pending":true,
+            "pdf":"null",
+            "sign":"null",
             "multi":[
-            {
-                "name":"Alright",
-                "hours":2,
-                "description":"cosas"
-            }
-            ]
+                {
+                    "name":"Alright",
+                    "hours":2,
+                    "description":"cosas"
+                }
+            ],
+            "deleted":false,
+            "workdate":"2025-04-29T08:16:02.158+00:00"
         } 
-        const resAlbaran=await api.post('/api/albaran').send(albaran)
-        .set('Authorization', `Bearer ${t}`)
-        albaranId=resAlbaran.body._id
+        const resAlbaran=await AlbaranModel.create(albaran)
+        albaranId=resAlbaran._id
     })
     afterEach(async()=>{
         await ClientModel.deleteMany({})
@@ -371,25 +394,33 @@ describe('Test with project,client',()=>{
 
 describe('signed',()=>{
     beforeEach(async()=>{
-        const result=await api.post('/api/users/register').send({
+        const user={
             "email": "nicolaila@gmail.com",
-            "password": "password"
-        })
-        t=result.body.token
+            "password": "password",
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": false,
+            "deleted": false
+        }
+        const result=await UserModel.create(user)
+        result.set('password', undefined, { strict: false })
+        t=await tokenSign(result)
         const client={
             "name": "ACS",
             "cif": "D52921211",
             "address": {
-              "street": "Carlos V",
-              "number": 22,
-              "postal": 28936,
-              "city": "Móstoles",
-              "province": "Madrid"
-            }
+                "street": "Carlos V",
+                "number": 22,
+                "postal": 28936,
+                "city": "Móstoles",
+                "province": "Madrid"
+            },
+            "deleted": false,
+            "userId":result._id
         }
-        const clientRes=await api.post('/api/client').send(client)
-        .set('Authorization', `Bearer ${t}`)
-        clientId=clientRes.body._id
+        const clientRes=await ClientModel.create(client)
+        clientId=clientRes._id
         const project={
             "name": "Nombre del proyecto",
             "projectCode": "Id1",
@@ -401,32 +432,35 @@ describe('signed',()=>{
                 "province": "Madrid"
             },
             "code": "Código interno del proyecto",
-            "clientId": clientId
+            "clientId": clientId,
+            "userId":result._id,
+            "deleted":false
         }
-        const projectRes=await api.post('/api/projects').send(project)
-        .set('Authorization', `Bearer ${t}`)
-        projectId=projectRes.body._id
+        const projectRes=await ProjectModel.create(project)
+        projectId=projectRes._id
         const albaran={
             "albaranCode":"Id1",
+            "userId":result._id,
             "clientId": clientId,
             "projectId": projectId,
             "description": "Primer Albaran",
             "hours": 8,
             "format":"hours",
+            "pending":true,
+            "pdf":"https://gold-electrical-cat-313.mypinata.cloud/ipfs/QmeuCSx5c9H4muGsyjD1fz4r5xTu15F4fZYJ6QqxAHtK1N",
+            "sign":"https://gold-electrical-cat-313.mypinata.cloud/ipfs/QmUuiQ3aNhgx8722KJZsukcfqRxR89znHFWFZqsWwEY1qa",
             "multi":[
-            {
-                "name":"Alright",
-                "hours":2,
-                "description":"cosas"
-            }
-            ]
+                {
+                    "name":"Alright",
+                    "hours":2,
+                    "description":"cosas"
+                }
+            ],
+            "deleted":false,
+            "workdate":"2025-04-29T08:16:02.158+00:00"
         } 
-        const resAlbaran=await api.post('/api/albaran').send(albaran)
-        .set('Authorization', `Bearer ${t}`)
-        albaranId=resAlbaran.body._id
-        await api.get(`/api/albaran/pdf/${albaranId}`)
-        .set('Authorization', `Bearer ${t}`)
-        .attach('image','./signature.png')   
+        const resAlbaran=await AlbaranModel.create(albaran)
+        albaranId=resAlbaran._id  
     })
     afterEach(async()=>{
         await ClientModel.deleteMany({})
@@ -447,7 +481,7 @@ describe('signed',()=>{
             .expect(201)
             
             expect(spy).not.toHaveBeenCalled();
-            spy.mockRestore();
+            spy.mockClear();
         })
 
     })

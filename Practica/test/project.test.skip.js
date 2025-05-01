@@ -5,6 +5,8 @@ const ClientModel=require('../models/client')
 const UserModel=require('../models/users.js')
 const ProjectModel=require('../models/projects.js')
 
+const { tokenSign } = require('../utils/handleToken.js')
+
 const api = supertest(app);
 var t=null
 var clientId=null
@@ -20,11 +22,18 @@ beforeAll(async () => {
 
 describe('Test without client and project',()=>{
     beforeEach(async()=>{
-        const result=await api.post('/api/users/register').send({
+        const user={
             "email": "nicolaila@gmail.com",
-            "password": "password"
-        })
-        t=result.body.token
+            "password": "password",
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": false,
+            "deleted": false
+        }
+        const result=await UserModel.create(user)
+        result.set('password', undefined, { strict: false })
+        t=await tokenSign(result)
         
     })
     afterEach(async()=>{
@@ -42,25 +51,33 @@ describe('Test without client and project',()=>{
 
 describe('Test with created client and project',()=>{
     beforeEach(async()=>{
-        const result=await api.post('/api/users/register').send({
+        const user={
             "email": "nicolaila@gmail.com",
-            "password": "password"
-        })
-        t=result.body.token
+            "password": "password",
+            "role": ["user"],
+            "codigoAleatorio": 684691,
+            "intentos": 0,
+            "estado": false,
+            "deleted": false
+        }
+        const result=await UserModel.create(user)
+        result.set('password', undefined, { strict: false })
+        t=await tokenSign(result)
         const client={
             "name": "ACS",
             "cif": "D52921211",
             "address": {
-              "street": "Carlos V",
-              "number": 22,
-              "postal": 28936,
-              "city": "Móstoles",
-              "province": "Madrid"
-            }
+                "street": "Carlos V",
+                "number": 22,
+                "postal": 28936,
+                "city": "Móstoles",
+                "province": "Madrid"
+            },
+            "deleted": false,
+            "userId":result._id
         }
-        const clientRes=await api.post('/api/client').send(client)
-        .set('Authorization', `Bearer ${t}`)
-        clientId=clientRes.body._id
+        const clientRes=await ClientModel.create(client)
+        clientId=clientRes._id
         const project={
             "name": "Nombre del proyecto",
             "projectCode": "Id1",
@@ -72,11 +89,12 @@ describe('Test with created client and project',()=>{
                 "province": "Madrid"
             },
             "code": "Código interno del proyecto",
-            "clientId": clientId
+            "clientId": clientId,
+            "userId":result._id,
+            "deleted":false
         }
-        const projectRes=await api.post('/api/projects').send(project)
-        .set('Authorization', `Bearer ${t}`)
-        projectId=projectRes.body._id
+        const projectRes=await ProjectModel.create(project)
+        projectId=projectRes._id
     })
     afterEach(async()=>{
         await ClientModel.deleteMany({})

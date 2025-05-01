@@ -2,7 +2,7 @@ const { matchedData } = require('express-validator')
 const AlbaranModel=require('../models/albaran')
 const ClientModel=require('../models/client')
 const ProjectModel=require('../models/projects')
-const uploadToPinata=require('../utils/handleUploadIPFS.js')
+const {uploadToPinata}=require('../utils/handleUploadIPFS.js')
 
 
 const crearAlbaran=async(req,res)=>{
