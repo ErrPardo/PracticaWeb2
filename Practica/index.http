@@ -178,7 +178,7 @@ DELETE http://localhost:3000/api/client/6818e212a7acc55977ee4be8
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODAyMmJmOTViYTVjODZkNTAzNTQ2ZjMiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ0OTcyNzk0LCJleHAiOjE3NDQ5Nzk5OTR9.ETdVXmlwxT0Smz9KW4iUtp_c6pboYreDMa5LNEFMfd8
 
 ###
-DELETE http://localhost:3000/api/client/archive/6818fb43d57ded22abc7d9aa
+DELETE http://localhost:3000/api/client/archive/68022c082f41b78e03477c99
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODE4ZTFmMWE3YWNjNTU5NzdlZTRiZTQiLCJyb2xlIjpbInVzZXIiXSwiaWF0IjoxNzQ2NDYxMTY5LCJleHAiOjE3NDY1NDc1Njl9.LUrnVKvg6vyPAuofvNxHgv9lFmwVd7l4kFPlyeW1kWI
 
 ###
