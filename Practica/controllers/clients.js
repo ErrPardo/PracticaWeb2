@@ -81,13 +81,15 @@ const deleteClient=async(req,res)=>{
             }
         }
         else{
-            const client=await ClientModel.findOneAndUpdate({"userId":id, "_id":req.params.id},{deleted:true},{ new: true })
+            const client=await ClientModel.findOne({"userId":id, "_id":req.params.id})
             if (!client || client.length === 0) {
                 res.status(404).send('Cliente no encontrado');
             }
             else{
-                res.send(client)
+                const result=await ClientModel.delete({"userId":id, "_id":req.params.id},{ new: true })
+                res.send(result)
             }
+            
         } 
     }
     catch(e){

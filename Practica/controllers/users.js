@@ -278,11 +278,12 @@ const deleteUser=async(req,res)=>{
             } 
         }
         else{
-            const user=await UserModel.findOneAndUpdate({"email":Ruser.email},{Ruser,deleted:true},{ new: true })
+            const user=await UserModel.findOne({"email":Ruser.email})
             if (!user || user.length === 0) {
                 res.status(404).send('No se encontro el usuario');
             }
             else{
+                const user=await UserModel.delete({"email":Ruser.email},{ new: true })
                 res.send(user)
             } 
         }    

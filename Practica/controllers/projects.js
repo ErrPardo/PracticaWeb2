@@ -87,12 +87,13 @@ const deleteProject=async(req,res)=>{
             }
         }
         else{
-            const project=await ProjectModel.findOneAndUpdate({"userId":id, "_id":req.params.id},{deleted:true},{ new: true })
+            const project=await ProjectModel.findOne({"userId":id, "_id":req.params.id})
             if (!project || project.length === 0) {
                 res.status(404).send('Proyecto no encontrado');
             }
             else{
-                res.send(project)
+                const result=await ProjectModel.delete({"userId":id, "_id":req.params.id},{ new: true })
+                res.send(result)
             }
         } 
     }
